@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
-namespace Strunchik.ViewModel.Validation.PasswordValidationRule;
+namespace Strunchik.ViewModel.Validation;
 
 public class PasswordValidationRule : ValidationRule
 {
@@ -16,7 +16,7 @@ public class PasswordValidationRule : ValidationRule
         }
         if (!PasswordRegex.IsMatch(password))
         {
-            return new ValidationResult(false, "Пароль должен быть длиной не менее 8 символов, содержать одну заглавную букву, одну строчную букву, одну цифру и один специальный символ.");
+            return new ValidationResult(false, "Неверный формат пароля.");
         }
         return ValidationResult.ValidResult;
     }

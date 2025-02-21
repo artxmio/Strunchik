@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
-namespace Strunchik.ViewModel.Validation.EmailValidationRule;
+namespace Strunchik.ViewModel.Validation;
 
 public class EmailValidationRule : ValidationRule
 {

@@ -7,9 +7,10 @@ namespace Strunchik.ViewModel.StartWindowViewModel;
 
 public class StartWindowViewModel
 {
-    private ApplicationContext.ApplicationContext _context;
+    private readonly ApplicationContext.ApplicationContext _context;
 
     public UserModel NewUser { get; set; }
+    public UserModel AuthUser { get; set; }
 
     public ICommand DragWindowCommand { get; }
     public ICommand CloseWindowCommand { get; }
@@ -19,6 +20,7 @@ public class StartWindowViewModel
     {
         _context = new ApplicationContext.ApplicationContext();
         NewUser = new UserModel();
+        AuthUser = new UserModel();
 
         DragWindowCommand = new RelayCommand(_ => DragWindow(_));
         CloseWindowCommand = new RelayCommand(_ => CloseWindow(_));
@@ -27,7 +29,7 @@ public class StartWindowViewModel
 
     private void Registration()
     {
-
+        
     }
 
     private static void CloseWindow(object _)

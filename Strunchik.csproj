@@ -33,8 +33,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModel\Validation\" />
-  </ItemGroup>
-
 </Project>
