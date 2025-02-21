@@ -6,6 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:vm="clr-namespace:Strunchik.ViewModel.StartWindowViewModel"
         xmlns:validations="clr-namespace:Strunchik.ViewModel.Validation"
+        xmlns:converters="clr-namespace:Strunchik.ViewModel.Converters"
         mc:Ignorable="d"
         Background="Transparent"
         RenderOptions.BitmapScalingMode="HighQuality"
