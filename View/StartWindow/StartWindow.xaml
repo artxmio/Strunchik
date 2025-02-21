@@ -70,9 +70,9 @@
                     BorderBrush="Gray"
                     Margin="0,0,0,10" 
                     Foreground="White"/>
-                <PasswordBox 
+                <TextBox
                     materialDesign:HintAssist.Hint="Пароль"
-                    Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                     materialDesign:HintAssist.Foreground="Red"  
                     materialDesign:TextFieldAssist.UnderlineBrush="Red"
                     BorderBrush="Gray"
@@ -88,8 +88,14 @@
 
             <!-- Форма регистрации -->
             <StackPanel Grid.Row="1" Grid.Column="2" Margin="0 50 40 0" Width="200" HorizontalAlignment="Center">
-                <TextBlock Text="Регистрация" FontSize="25" Margin="0,0,0,20" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock 
+                    Text="Регистрация" 
+                    FontSize="25" 
+                    Margin="0,0,0,20" 
+                    Foreground="White"
+                    HorizontalAlignment="Center"/>
                 <TextBox
+                    Text="{Binding NewUser.Name}"
                     materialDesign:HintAssist.Hint="Имя" 
                     materialDesign:HintAssist.Foreground="Red"  
                     materialDesign:TextFieldAssist.UnderlineBrush="Red"
@@ -98,6 +104,7 @@
                     Margin="0,0,0,10" 
                     Foreground="White" />
                 <TextBox 
+                    Text="{Binding NewUser.Email}"
                     materialDesign:HintAssist.Hint="Email" 
                     materialDesign:HintAssist.Foreground="Red"  
                     materialDesign:TextFieldAssist.UnderlineBrush="Red"
@@ -105,15 +112,20 @@
                     BorderBrush="Gray"
                     Margin="0,0,0,10"
                     Foreground="White" />
-                <PasswordBox
+                <TextBox
+                    Text="{Binding NewUser.Password}"
                     materialDesign:HintAssist.Hint="Пароль" 
-                    Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                     materialDesign:HintAssist.Foreground="Red"  
                     materialDesign:TextFieldAssist.UnderlineBrush="Red"
                     BorderBrush="Gray"
                     Margin="0,0,0,10" 
                     Foreground="White"/>
-                <Button Content="Зарегистрироваться" Style="{StaticResource MaterialDesignRaisedButton}" Background="Red" BorderBrush="Transparent"/>
+                <Button Content="Зарегистрироваться"
+                        Style="{StaticResource MaterialDesignRaisedButton}" 
+                        Background="Red" 
+                        BorderBrush="Transparent"
+                        Command="{Binding RegistrationCommand}"/>
             </StackPanel>
         </Grid>
     </Border>
