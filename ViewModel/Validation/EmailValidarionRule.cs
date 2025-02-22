@@ -12,7 +12,7 @@ public class EmailValidationRule : ValidationRule
         var email = value as string;
         if (string.IsNullOrWhiteSpace(email))
         {
-            return new ValidationResult(false, "Введите пароль.");
+            return new ValidationResult(false, "Введите адрес электронной почты.");
         }
         if (!EmailRegex.IsMatch(email))
         {

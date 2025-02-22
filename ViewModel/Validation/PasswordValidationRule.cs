@@ -5,7 +5,7 @@ namespace Strunchik.ViewModel.Validation;
 
 public class PasswordValidationRule : ValidationRule
 {
-    private static readonly Regex PasswordRegex = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", RegexOptions.Compiled);
+    private static readonly Regex PasswordRegex = new Regex("^[A-Za-z\\d@$!%*?&]{8,}$", RegexOptions.Compiled);
 
     public override ValidationResult Validate(object value, CultureInfo cultureInfo)
     {
