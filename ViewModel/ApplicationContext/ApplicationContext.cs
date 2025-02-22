@@ -9,7 +9,7 @@ public class ApplicationContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var sourcePathDB = "database.db";
+        const string sourcePathDB = "database.db";
         optionsBuilder.UseSqlite($"Data Source={sourcePathDB}");
     }
 }

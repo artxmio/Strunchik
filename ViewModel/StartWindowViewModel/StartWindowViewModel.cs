@@ -1,4 +1,6 @@
-﻿using Strunchik.Model.User;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using Strunchik.Model.User;
 using Strunchik.ViewModel.Commands;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -53,19 +55,25 @@ public class StartWindowViewModel : INotifyPropertyChanged
 
     private void Registration()
     {
-        Regex EmailRegex = new Regex("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", RegexOptions.Compiled);
-        Regex NameRegex = new Regex("^[A-Za-zА-Яа-яЁё\\s]+$", RegexOptions.Compiled);
-        Regex PasswordRegex = new Regex("^[A-Za-z\\d@$!%*?&]{8,}$", RegexOptions.Compiled);
-
-        var b2 = NewUser.Email is null || NewUser.Password is null || NewUser.Name is null;
-        
-        if (b2)
+        if (NewUser.Email is null || NewUser.Password is null || NewUser.Name is null)
         {
             ErrorMessage = "Введите все обязательные поля";
         }
         else
         {
-            ErrorMessage = "Успех";
+            _context.Users.Load();
+            var users = _context.Users.Local.ToList();
+
+            bool isExist = users.Any(user => user.Email == NewUser.Email);
+
+            if (isExist)
+            {
+                ErrorMessage = "Пользователь с такой почтой уже существует";
+            }
+            else
+            {
+                ErrorMessage = "успех";
+            }
         }
     }
 

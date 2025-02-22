@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="database.db" />
     <None Remove="Resources\Images\cross.png" />
   </ItemGroup>
 
@@ -25,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="database.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\cross.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
