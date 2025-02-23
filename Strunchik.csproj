@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <Content Include="database.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\cross.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

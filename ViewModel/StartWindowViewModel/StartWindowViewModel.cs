@@ -109,9 +109,19 @@ public class StartWindowViewModel : INotifyPropertyChanged
             }
             else
             {
-                _context.Users.Add(NewUser);
+                var state = _context.Users.Add(NewUser);
+                _context.ChangeTracker.Clear();
+                _context.Entry(NewUser).State = EntityState.Added;
                 _context.SaveChanges();
-                MessageBox.Show("Поздравляю, вы успешно зарегистрировались! Теперь вы можете авторизоваться.", "Успех", MessageBoxButton.OK);
+                
+                if(state.State == EntityState.Added)
+                {
+                    MessageBox.Show("Поздравляю, вы успешно зарегистрировались! Теперь вы можете авторизоваться.", "Успех", MessageBoxButton.OK);
+                }
+                else
+                {
+                    MessageBox.Show("Не удалось добавить пользователя в базу данных", "Ошибка");
+                }
             }
         }
         IsEnabledRegButton = true;
