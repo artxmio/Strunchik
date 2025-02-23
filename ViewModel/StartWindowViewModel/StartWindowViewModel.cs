@@ -72,7 +72,9 @@ public class StartWindowViewModel : INotifyPropertyChanged
             }
             else
             {
-                ErrorMessage = "успех";
+                _context.Users.Add(NewUser);
+                _context.SaveChanges();
+                MessageBox.Show("Поздравляю, вы успешно зарегистрировались! Теперь вы можете авторизоваться.", "Успех", MessageBoxButton.OK);
             }
         }
     }
