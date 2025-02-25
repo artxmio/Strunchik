@@ -41,8 +41,7 @@
             <Setter Property="Height" Value="40"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Padding" Value="10,0,10,0"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="Foreground" Value="Red"/>
         </Style>
     </Window.Resources>
@@ -112,9 +111,14 @@
 
             <Menu Grid.Column="0" VerticalAlignment="Top" Margin="0 0 0 0" Foreground="White" Background="#2e2e2e" MouseDown="TitleBar_MouseDown">
                 <MenuItem Header="Каталог">
+                    <MenuItem Foreground="Black" Header="Все инструменты"/>
+                    <Separator/>
                     <MenuItem Foreground="Black" Header="Струнные инструменты"/>
+                    <Separator/>
                     <MenuItem Foreground="Black" Header="Клавишные инструменты"/>
+                    <Separator/>
                     <MenuItem Foreground="Black" Header="Ударные инструменты"/>
+                    <Separator/>
                     <MenuItem Foreground="Black" Header="Духовые инструменты"/>
                 </MenuItem>
                 <MenuItem Header="Профиль">
@@ -147,20 +151,26 @@
                 </Grid.RowDefinitions>
 
                 <TextBox 
+                    x:Name="searchBox"
                     Style="{StaticResource SearchTextBoxStyle}"
+                    Text="{Binding SearchString}"
                     Margin="10"
                     Width="500"
-                    HorizontalAlignment="Center"/>
+                    HorizontalAlignment="Center"
+                    KeyDown="SearchBox_KeyDown"/>
 
                 <ListBox x:Name="InstrumentListBox" 
                          Grid.Row="1"
-                         Margin="10" 
+                         Margin="10,20,10,10" 
                          ItemsSource="{Binding Items}"
                          SelectedItem="{Binding SelectedItem}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding Title}" FontWeight="Bold" Foreground="White"/>
+                            <StackPanel
+                                Orientation="Vertical"    
+                                HorizontalAlignment="Center"
+                                Margin="10">
+                                <TextBlock FontSize="20" Text="{Binding Title}" FontWeight="Bold" Foreground="White"/>
                                 <TextBlock Text="{Binding Type, Converter={StaticResource ItemsTypeToStringConverter}}" Foreground="White" FontStyle="Italic"/>
                                 <TextBlock Text="{Binding Price, StringFormat=C}" Foreground="Green"/>
                             </StackPanel>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Strunchik.Model.Item;
 using Strunchik.ViewModel.Commands;
+using Strunchik.ViewModel.Services.SearchService;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -11,9 +12,10 @@ namespace Strunchik.ViewModel.MainWindowViewModel;
 
 public class MainWindowViewModel : INotifyPropertyChanged
 {
-    private ApplicationContext.ApplicationContext _context;
+    private readonly ApplicationContext.ApplicationContext _context;
     private ItemModel _selectedItem = null!;
     private GridLength _selectedWidth = new(0);
+    private string _searchString = "";
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<ItemModel>? ItemSelected;
@@ -50,6 +52,16 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public ICommand CloseItemDescriptionCommand { get; }
 
+    public string SearchString
+    {
+        get => _searchString;
+        set
+        {
+            _searchString = value;
+            OnPropertyChanged();
+        }
+    }
+
     public MainWindowViewModel()
     {
         _context = new ApplicationContext.ApplicationContext();
@@ -72,7 +84,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             window.WindowState = window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
         }
     }
-
     private static void RollWindow(object _)
     {
         if (_ is Window window)
@@ -80,11 +91,22 @@ public class MainWindowViewModel : INotifyPropertyChanged
             window.WindowState = WindowState.Minimized;
         }
     }
-
     private void CloseItemDescription()
     {
         _selectedItem = null;
         OnItemSelected(new GridLength(0));
+    }
+
+    public void OnEnterDown()
+    {
+        if (string.IsNullOrEmpty(SearchString))
+        {
+            Items = _context.Items.Local.ToObservableCollection();
+            OnPropertyChanged(nameof(Items));
+            return;
+        }
+        Items = SearchService.Find(Items, _searchString);
+        OnPropertyChanged(nameof(Items));
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -108,12 +130,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
             throw new ArgumentException("Parameter was not a window");
         }
     }
-
     private static void DragWindow(object _)
     {
         if (_ is Window window)
         {
-            if(window.WindowState == WindowState.Maximized)
+            if (window.WindowState == WindowState.Maximized)
             {
                 window.WindowState = WindowState.Normal;
             }

@@ -71,7 +71,6 @@ public class StartWindowViewModel : INotifyPropertyChanged
         }
     }
 
-
     public StartWindowViewModel()
     {
         _context = new ApplicationContext.ApplicationContext();
@@ -109,8 +108,8 @@ public class StartWindowViewModel : INotifyPropertyChanged
                 _context.ChangeTracker.Clear();
                 _context.Entry(NewUser).State = EntityState.Added;
                 _context.SaveChanges();
-                
-                if(state.State == EntityState.Added)
+
+                if (state.State == EntityState.Added)
                 {
                     MessageBox.Show("Поздравляю, вы успешно зарегистрировались! Теперь вы можете авторизоваться.", "Успех", MessageBoxButton.OK);
                 }
