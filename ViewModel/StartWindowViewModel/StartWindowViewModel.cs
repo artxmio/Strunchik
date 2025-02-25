@@ -71,10 +71,6 @@ public class StartWindowViewModel : INotifyPropertyChanged
         }
     }
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
 
     public StartWindowViewModel()
     {
@@ -179,5 +175,10 @@ public class StartWindowViewModel : INotifyPropertyChanged
         {
             throw new ArgumentException("Parameter was not a window");
         }
+    }
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

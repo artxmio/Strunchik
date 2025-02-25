@@ -6,11 +6,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\Images\skull.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="database.db" />
     <None Remove="Resources\Images\cross.png" />
+    <None Remove="Resources\Images\restore - Copy.png" />
+    <None Remove="Resources\Images\restore.png" />
+    <None Remove="Resources\Images\roll.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +31,7 @@
 
   <ItemGroup>
     <Content Include="database.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\cross.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -35,6 +39,13 @@
     <Content Include="Resources\Images\logo.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\restore.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\roll.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\skull.ico" />
   </ItemGroup>
 
 </Project>

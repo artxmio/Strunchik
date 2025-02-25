@@ -3,10 +3,170 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:Strunchik.ViewModel.Converters"
         xmlns:local="clr-namespace:Strunchik.View.MainWindow"
+        xmlns:vm="clr-namespace:Strunchik.ViewModel.MainWindowViewModel"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Strunchic"
+        WindowState="Normal"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="#202020"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
+        d:Width="1920"
+        d:Height="1080">
+
+    <Window.Resources>
+        <converters:ItemsTypeToStringConverter x:Key="ItemsTypeToStringConverter"/>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="1" Grid.Row="0" Background="#2e2e2e" Height="Auto" MouseDown="TitleBar_MouseDown">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel 
+                Grid.Column="1" 
+                Orientation="Horizontal"
+                HorizontalAlignment="Right">
+
+                <Button 
+                    Grid.Column="1" 
+                    Width="40"
+                    Height="40"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right" 
+                    Background="Transparent" 
+                    BorderBrush="Transparent"
+                    Padding="0"                
+                    Command="{Binding RollWindowCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Content>
+                        <Image Source="..\..\Resources\Images\roll.png" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button.Content>
+                </Button>
+                <Button 
+                    Grid.Column="1" 
+                    Width="40"
+                    Height="40"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right" 
+                    Background="Transparent" 
+                    BorderBrush="Transparent"
+                    Padding="0"                
+                    Command="{Binding RestoreWindowCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Content>
+                        <Image Source="..\..\Resources\Images\restore.png" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button.Content>
+                </Button>
+                <Button 
+                    Grid.Column="1" 
+                    Width="40"
+                    Height="40"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right" 
+                    Background="Transparent" 
+                    BorderBrush="Transparent"
+                    Padding="0"                
+                    Command="{Binding CloseWindowCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Content>
+                        <Image Source="..\..\Resources\Images\cross.png" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+
+            <Menu Grid.Column="0" VerticalAlignment="Top" Margin="0 0 0 0" Foreground="White" Background="#2e2e2e" MouseDown="TitleBar_MouseDown">
+                <MenuItem Header="Каталог">
+                    <MenuItem Foreground="Black" Header="Струнные инструменты"/>
+                    <MenuItem Foreground="Black" Header="Клавишные инструменты"/>
+                    <MenuItem Foreground="Black" Header="Ударные инструменты"/>
+                    <MenuItem Foreground="Black" Header="Духовые инструменты"/>
+                </MenuItem>
+                <MenuItem Header="Профиль">
+                    <MenuItem Foreground="Black" Header="Войти/Зарегистрироваться"/>
+                    <Separator/>
+                    <MenuItem Foreground="Black" Header="Мой профиль"/>
+                    <MenuItem Foreground="Black" Header="Корзина"/>
+                    <Separator/>
+                    <MenuItem Foreground="Black" Header="Выход"/>
+                </MenuItem>
+                <MenuItem Header="Справка">
+                    <MenuItem Foreground="Black" Header="О программе"/>
+                    <MenuItem Foreground="Black" Header="Связаться с нами"/>
+                </MenuItem>
+            </Menu>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,40,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="{Binding SelectedWidth}"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Список товаров -->
+            <ListBox x:Name="InstrumentListBox" 
+                     Grid.Column="0"
+                     Margin="10" 
+                     ItemsSource="{Binding Items}"
+                     SelectedItem="{Binding SelectedItem}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Title}" FontWeight="Bold" Foreground="White"/>
+                            <TextBlock Text="{Binding Type, Converter={StaticResource ItemsTypeToStringConverter}}" Foreground="White" FontStyle="Italic"/>
+                            <TextBlock Text="{Binding Price, StringFormat=C}" Foreground="Green"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Grid Grid.Column="1" Margin="10,20,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent" Padding="0" 
+                        Command="{Binding CloseItemDescriptionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Button.Content>
+                        <Image Source="..\..\Resources\Images\cross.png" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button.Content>
+                </Button>
+                <StackPanel Grid.Row="1">
+                    <TextBlock Text="Информация о товаре" FontSize="16" FontWeight="Bold"/>
+                    <TextBlock Text="Название:" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedItem.Title}"/>
+                    <TextBlock Text="Категория:" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedItem.Type, Converter={StaticResource ItemsTypeToStringConverter}}"/>
+                    <TextBlock Text="Цена:" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedItem.Price, StringFormat=C}" Foreground="Green"/>
+                    <TextBlock Text="Описание:" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedItem.Description, ElementName=InstrumentListBox}" TextWrapping="Wrap"/>
+                    <Button Content="Добавить в корзину" Margin="0,10,0,0" Background="Red" BorderBrush="Transparent"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
