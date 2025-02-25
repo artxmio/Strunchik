@@ -1,14 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Strunchik.Model.Item;
 using Strunchik.ViewModel.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 
 namespace Strunchik.ViewModel.MainWindowViewModel;
 
@@ -76,7 +73,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
-    private void RollWindow(object _)
+    private static void RollWindow(object _)
     {
         if (_ is Window window)
         {

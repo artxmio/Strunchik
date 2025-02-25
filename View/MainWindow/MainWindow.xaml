@@ -6,12 +6,13 @@
         xmlns:converters="clr-namespace:Strunchik.ViewModel.Converters"
         xmlns:local="clr-namespace:Strunchik.View.MainWindow"
         xmlns:vm="clr-namespace:Strunchik.ViewModel.MainWindowViewModel"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Strunchic"
         WindowState="Normal"
         WindowStyle="None"
         AllowsTransparency="True"
+        ResizeMode="CanResize"
         Background="#202020"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         d:Width="1920"
@@ -30,6 +31,19 @@
         </Style>
         <Style TargetType="ListBoxItem">
             <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style x:Key="SearchTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="materialDesign:HintAssist.Hint" Value="Search"/>
+            <Setter Property="materialDesign:TextFieldAssist.HasClearButton" Value="True"/>
+            <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="Red"/>
+            <Setter Property="materialDesign:HintAssist.Foreground" Value="Red"/>
+            <Setter Property="CaretBrush" Value="Red"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10,0,10,0"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Red"/>
         </Style>
     </Window.Resources>
 
@@ -119,28 +133,43 @@
 
         </Grid>
 
-        <Grid Grid.Row="1" Margin="0,40,0,0">
+        <Grid Grid.Row="1" Margin="15,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="{Binding SelectedWidth}"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Список товаров -->
-            <ListBox x:Name="InstrumentListBox" 
-                     Grid.Column="0"
-                     Margin="10" 
-                     ItemsSource="{Binding Items}"
-                     SelectedItem="{Binding SelectedItem}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding Title}" FontWeight="Bold" Foreground="White"/>
-                            <TextBlock Text="{Binding Type, Converter={StaticResource ItemsTypeToStringConverter}}" Foreground="White" FontStyle="Italic"/>
-                            <TextBlock Text="{Binding Price, StringFormat=C}" Foreground="Green"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <Grid Grid.Column="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <TextBox 
+                    Style="{StaticResource SearchTextBoxStyle}"
+                    Margin="10"
+                    Width="500"
+                    HorizontalAlignment="Center"/>
+
+                <ListBox x:Name="InstrumentListBox" 
+                         Grid.Row="1"
+                         Margin="10" 
+                         ItemsSource="{Binding Items}"
+                         SelectedItem="{Binding SelectedItem}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Title}" FontWeight="Bold" Foreground="White"/>
+                                <TextBlock Text="{Binding Type, Converter={StaticResource ItemsTypeToStringConverter}}" Foreground="White" FontStyle="Italic"/>
+                                <TextBlock Text="{Binding Price, StringFormat=C}" Foreground="Green"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                
+            </Grid>
+            
 
             <Grid Grid.Column="1" Margin="10,20,10,0">
                 <Grid.RowDefinitions>
