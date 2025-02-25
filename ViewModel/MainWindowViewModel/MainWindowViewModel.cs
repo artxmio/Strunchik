@@ -99,13 +99,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public void OnEnterDown()
     {
-        if (string.IsNullOrEmpty(SearchString))
-        {
-            Items = _context.Items.Local.ToObservableCollection();
-            OnPropertyChanged(nameof(Items));
-            return;
-        }
-        Items = SearchService.Find(Items, _searchString);
+        Items = string.IsNullOrEmpty(SearchString) ? _context.Items.Local.ToObservableCollection() : SearchService.Find(Items, _searchString);
         OnPropertyChanged(nameof(Items));
     }
 
