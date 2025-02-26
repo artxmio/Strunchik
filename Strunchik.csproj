@@ -17,6 +17,7 @@
     <None Remove="Resources\Images\restore - Copy.png" />
     <None Remove="Resources\Images\restore.png" />
     <None Remove="Resources\Images\roll.png" />
+    <None Remove="Resources\Images\sort.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,6 +55,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\skull.ico" />
+    <Content Include="Resources\Images\sort.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
