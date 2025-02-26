@@ -12,6 +12,8 @@
   <ItemGroup>
     <None Remove="database.db" />
     <None Remove="Resources\Images\cross.png" />
+    <None Remove="Resources\Images\eye1.png" />
+    <None Remove="Resources\Images\eye2.png" />
     <None Remove="Resources\Images\restore - Copy.png" />
     <None Remove="Resources\Images\restore.png" />
     <None Remove="Resources\Images\roll.png" />
@@ -34,6 +36,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\cross.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\eye1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\eye2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\logo.jpg">

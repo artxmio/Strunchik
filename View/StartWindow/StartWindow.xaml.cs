@@ -1,5 +1,6 @@
 ﻿using Strunchik.ViewModel.StartWindowViewModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Strunchik.View.StartWindow;
 
@@ -16,5 +17,15 @@ public partial class StartWindow : Window
     {
         var viewModel = (StartWindowViewModel)DataContext;
         viewModel.DragWindowCommand.Execute(this);
+    }
+
+    private void ShowPassword(object sender, System.Windows.RoutedEventArgs e)
+    {
+        authPasswordTextBox.IsPasswordVisible = !authPasswordTextBox.IsPasswordVisible;
+
+        if (sender is Button button)
+        {
+            button.Tag = button.Tag?.ToString() == "0" ? "1" : "0";
+        }
     }
 }
