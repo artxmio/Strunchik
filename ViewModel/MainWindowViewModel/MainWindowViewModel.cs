@@ -17,6 +17,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private ItemModel _selectedItem = null!;
     private GridLength _selectedWidth = new(0);
     private string _searchString = "";
+    private bool _isUserNotAuthorizate = true;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<ItemModel>? ItemSelected;
@@ -37,6 +38,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand RollWindowCommand { get; }
     public ICommand CloseWindowCommand { get; }
     public ICommand OpenAuthorizationRegistrationCommand { get; }
+    public ICommand CloseItemDescriptionCommand { get; }
+    public ICommand ExitCommand { get; }
 
     public GridLength SelectedWidth
     {
@@ -51,9 +54,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-
-    public ICommand CloseItemDescriptionCommand { get; }
-
     public string SearchString
     {
         get => _searchString;
@@ -62,6 +62,20 @@ public class MainWindowViewModel : INotifyPropertyChanged
             _searchString = value;
             OnPropertyChanged();
         }
+    }
+
+    public bool IsUserNotAuthorizate
+    {
+        get => _isUserNotAuthorizate;
+        set
+        {
+            _isUserNotAuthorizate = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool IsUserAuthorizate
+    {
+        get => !_isUserNotAuthorizate;
     }
 
     public MainWindowViewModel()
@@ -78,41 +92,44 @@ public class MainWindowViewModel : INotifyPropertyChanged
         CloseWindowCommand = new RelayCommand(_ => CloseWindow(_));
         CloseItemDescriptionCommand = new RelayCommand(_ => CloseItemDescription());
         OpenAuthorizationRegistrationCommand = new RelayCommand(_ => OpenAuthorizationRegistration());
+        ExitCommand = new RelayCommand(_ => Exit(_));
     }
 
-    private static void OpenAuthorizationRegistration()
+    private void OpenAuthorizationRegistration()
     {
         var authRegWindow = new StartWindow();
 
         authRegWindow.ShowDialog();
-    }
+        var result = authRegWindow.DialogResult;
 
-    private static void RestoreWindow(object _)
-    {
-        if (_ is Window window)
+        if (result is not null)
         {
-            window.WindowState = window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            IsUserNotAuthorizate = !(bool)result;
+            OnPropertyChanged(nameof(IsUserAuthorizate));
+        }
+        else
+        {
+            throw new NullReferenceException();
         }
     }
-    private static void RollWindow(object _)
+    private void Exit(object _)
     {
-        if (_ is Window window)
-        {
-            window.WindowState = WindowState.Minimized;
-        }
+        var window = (Window)_;
+
+        /* Сделать сохранение данных пользователя */
+
+        window.Close();
     }
     private void CloseItemDescription()
     {
-        _selectedItem = null;
+        _selectedItem = null!;
         OnItemSelected(new GridLength(0));
     }
-
     public void OnEnterDown()
     {
         Items = string.IsNullOrEmpty(SearchString) ? _context.Items.Local.ToObservableCollection() : SearchService.Find(Items, _searchString);
         OnPropertyChanged(nameof(Items));
     }
-
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -147,6 +164,20 @@ public class MainWindowViewModel : INotifyPropertyChanged
         else
         {
             throw new ArgumentException("Parameter was not a window");
+        }
+    }
+    private static void RestoreWindow(object _)
+    {
+        if (_ is Window window)
+        {
+            window.WindowState = window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        }
+    }
+    private static void RollWindow(object _)
+    {
+        if (_ is Window window)
+        {
+            window.WindowState = WindowState.Minimized;
         }
     }
 }

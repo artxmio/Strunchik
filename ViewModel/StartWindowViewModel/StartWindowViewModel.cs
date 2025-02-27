@@ -2,6 +2,7 @@
 using Strunchik.Model.User;
 using Strunchik.View.MainWindow;
 using Strunchik.ViewModel.Commands;
+using Strunchik.ViewModel.Services.UserSaveService;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -16,6 +17,7 @@ public class StartWindowViewModel : INotifyPropertyChanged
     private string _errorAuthMessage = "";
     private bool _isEnabledAuthButton = true;
     private bool _isEnabledRegButton = true;
+    private UserSaveService _userSaveService;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -76,6 +78,7 @@ public class StartWindowViewModel : INotifyPropertyChanged
         _context = new ApplicationContext.ApplicationContext();
         NewUser = new UserModel();
         AuthUser = new UserModel();
+        _userSaveService = new UserSaveService();
 
         DragWindowCommand = new RelayCommand(_ => DragWindow(_));
         CloseWindowCommand = new RelayCommand(_ => CloseWindow(_));
@@ -129,6 +132,8 @@ public class StartWindowViewModel : INotifyPropertyChanged
     private void Authorization(object _)
     {
         IsEnabledAuthButton = false;
+
+        var window = (Window)_;
         if (AuthUser.Email is null || AuthUser.Password is null)
         {
             ErrorAuthMessage = "Введите все обязательные поля";
@@ -138,34 +143,29 @@ public class StartWindowViewModel : INotifyPropertyChanged
             _context.Users.Load();
             var users = _context.Users.Local.ToList();
 
-            bool isExist = users.Any(user => user.Email == AuthUser.Email);
+            bool isExist = users.Any(user => user.Email == AuthUser.Email && user.Password == AuthUser.Password);
 
             if (!isExist)
             {
-                ErrorAuthMessage = "Такого пользователя не существуют";
+                ErrorAuthMessage = "Такого пользователя не существуют или введён неправильный пароль.";
             }
             else
             {
-                var mainWindow = new MainWindow();
-
-                mainWindow.Show();
-
-                CloseWindowCommand.Execute((Window)_);
+                window.DialogResult = true;
+                var user = new SerializableUser(AuthUser);
+                _userSaveService.SaveUserData(user);
+                window.Close();
             }
         }
         IsEnabledAuthButton = true;
     }
 
-    private static void CloseWindow(object _)
+    private void CloseWindow(object _)
     {
-        if (_ is Window window)
-        {
-            window.Close();
-        }
-        else
-        {
-            throw new ArgumentException("Parameter was not a window");
-        }
+        var window = (Window)_;
+
+        window.DialogResult = false;
+        window.Close();
     }
 
     private static void DragWindow(object _)
