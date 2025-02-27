@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Strunchik.Model.Item;
+using Strunchik.View.StartWindow;
 using Strunchik.ViewModel.Commands;
 using Strunchik.ViewModel.Services.SearchService;
 using System.Collections.ObjectModel;
@@ -35,6 +36,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand RestoreWindowCommand { get; }
     public ICommand RollWindowCommand { get; }
     public ICommand CloseWindowCommand { get; }
+    public ICommand OpenAuthorizationRegistrationCommand { get; }
 
     public GridLength SelectedWidth
     {
@@ -75,6 +77,14 @@ public class MainWindowViewModel : INotifyPropertyChanged
         RollWindowCommand = new RelayCommand(_ => RollWindow(_));
         CloseWindowCommand = new RelayCommand(_ => CloseWindow(_));
         CloseItemDescriptionCommand = new RelayCommand(_ => CloseItemDescription());
+        OpenAuthorizationRegistrationCommand = new RelayCommand(_ => OpenAuthorizationRegistration());
+    }
+
+    private static void OpenAuthorizationRegistration()
+    {
+        var authRegWindow = new StartWindow();
+
+        authRegWindow.ShowDialog();
     }
 
     private static void RestoreWindow(object _)

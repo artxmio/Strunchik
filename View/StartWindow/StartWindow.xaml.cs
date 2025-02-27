@@ -19,9 +19,19 @@ public partial class StartWindow : Window
         viewModel.DragWindowCommand.Execute(this);
     }
 
-    private void ShowPassword(object sender, System.Windows.RoutedEventArgs e)
+    private void ShowPasswordAuth(object sender, System.Windows.RoutedEventArgs e)
     {
         authPasswordTextBox.IsPasswordVisible = !authPasswordTextBox.IsPasswordVisible;
+
+        if (sender is Button button)
+        {
+            button.Tag = button.Tag?.ToString() == "0" ? "1" : "0";
+        }
+    }
+
+    private void ShowPasswordReg(object sender, System.Windows.RoutedEventArgs e)
+    {
+        regPasswordTextBox.IsPasswordVisible = !regPasswordTextBox.IsPasswordVisible;
 
         if (sender is Button button)
         {

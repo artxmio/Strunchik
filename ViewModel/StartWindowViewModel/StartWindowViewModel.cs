@@ -112,7 +112,10 @@ public class StartWindowViewModel : INotifyPropertyChanged
                 if (state.State == EntityState.Added)
                 {
                     MessageBox.Show("Поздравляю, вы успешно зарегистрировались! Теперь вы можете авторизоваться.", "Успех", MessageBoxButton.OK);
-                    NewUser = new UserModel();
+                    NewUser.Email = "";
+                    NewUser.Password = "";
+                    NewUser.Name = "";
+                    OnPropertyChanged(nameof(NewUser));
                 }
                 else
                 {

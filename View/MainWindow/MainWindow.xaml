@@ -123,7 +123,7 @@
                     <MenuItem Foreground="Black" Header="Духовые инструменты"/>
                 </MenuItem>
                 <MenuItem Header="Профиль">
-                    <MenuItem Foreground="Black" Header="Войти/Зарегистрироваться"/>
+                    <MenuItem Foreground="Black" Header="Войти/Зарегистрироваться" Command="{Binding OpenAuthorizationRegistrationCommand}"/>
                     <Separator/>
                     <MenuItem Foreground="Black" Header="Мой профиль"/>
                     <MenuItem Foreground="Black" Header="Корзина"/>

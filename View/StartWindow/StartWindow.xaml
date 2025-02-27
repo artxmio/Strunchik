@@ -73,7 +73,7 @@
 
             <!-- Форма авторизации -->
             <StackPanel Grid.Row="1" Grid.Column="0" Margin="40 50 0 0" HorizontalAlignment="Center" Width="200">
-                <TextBlock Text="Авторизация" FontSize="25" Margin="0,0,0,20" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="Авторизация" FontSize="30" Margin="0,0,0,20" Foreground="White" HorizontalAlignment="Center"/>
                 <TextBox 
                     x:Name="authEmailTextBox"
                     materialDesign:HintAssist.Hint="Email*" 
@@ -83,7 +83,8 @@
                     BorderBrush="Gray"
                     Margin="0,0,0,10" 
                     Foreground="White"
-                    MaxLength="50">
+                    MaxLength="50"
+                    FontSize="17">
 
                     <TextBox.Text>
                         <Binding Path="AuthUser.Email" UpdateSourceTrigger="PropertyChanged" NotifyOnTargetUpdated="True">
@@ -109,9 +110,10 @@
                     Background="Transparent"
                     CaretBrush="Red"
                     BorderBrush="Gray"
-                    Margin="0,0,0,10" 
+                    Margin="0,5,0,10" 
                     Foreground="White"
-                    MaxLength="25" Width="180">
+                    MaxLength="25" Width="180"
+                        FontSize="17">
 
                         <controls:TextPasswordBox.Password>
                             <Binding Path="AuthUser.Password" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" Mode="TwoWay" >
@@ -131,7 +133,7 @@
                     VerticalAlignment="Center"
                     Cursor="Hand"
                     Tag="0"
-                    Click="ShowPassword">
+                    Click="ShowPasswordAuth">
 
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -140,7 +142,7 @@
                         </Button.Template>
 
                         <Button.Content>
-                            <Image Width="20" Height="20">
+                            <Image Width="15" Height="15">
                                 <Image.Style>
                                     <Style TargetType="Image">
                                         <Setter Property="Source" Value="..\..\Resources\Images\eye1.png"/>
@@ -180,7 +182,7 @@
             </StackPanel>
 
             <!-- Форма регистрации -->
-            <StackPanel Grid.Row="1" Grid.Column="2" Margin="0 50 40 0" Width="200" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="1" Grid.Column="2" Margin="0 20 40 0" Width="200" HorizontalAlignment="Center">
                 <TextBlock 
                     Text="Регистрация" 
                     FontSize="25" 
@@ -195,7 +197,8 @@
                     BorderBrush="Gray"
                     Margin="0,0,0,10" 
                     Foreground="White" 
-                    MaxLength="50">
+                    MaxLength="50"
+                    FontSize="17">
 
                     <TextBox.Text>
                         <Binding Path="NewUser.Name" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
@@ -212,9 +215,10 @@
                     materialDesign:TextFieldAssist.UnderlineBrush="Red"
                     CaretBrush="Red"
                     BorderBrush="Gray"
-                    Margin="0,0,0,10"
+                    Margin="0,5,0,10"
                     Foreground="White"
-                    MaxLength="50">
+                    MaxLength="50"
+                    FontSize="17">
 
                     <TextBox.Text>
                         <Binding Path="NewUser.Email" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
@@ -227,7 +231,7 @@
                 <StackPanel Orientation="Horizontal">
 
                     <controls:TextPasswordBox
-                        Text="{Binding AuthUser.Password, Mode=OneWay}"
+                        Text="{Binding NewUser.Password, Mode=OneWay}"
                         x:Name="regPasswordTextBox"
     
                         materialDesign:HintAssist.Hint="Пароль*"
@@ -238,12 +242,13 @@
                         Background="Transparent"
                         CaretBrush="Red"
                         BorderBrush="Gray"
-                        Margin="0,0,0,10" 
+                        Margin="0,5,0,10" 
                         Foreground="White"
-                        MaxLength="25" Width="180">     
+                        MaxLength="25" Width="180"
+                        FontSize="17">     
 
                         <controls:TextPasswordBox.Password>
-                            <Binding Path="AuthUser.Password" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" Mode="TwoWay" >
+                            <Binding Path="NewUser.Password" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" Mode="TwoWay" >
                                 <Binding.ValidationRules>
                                     <validations:PasswordValidationRule/>
                                 </Binding.ValidationRules>
@@ -260,7 +265,7 @@
                         VerticalAlignment="Center"
                         Cursor="Hand"
                         Tag="0"
-                        Click="ShowPassword">
+                        Click="ShowPasswordReg">
 
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -269,7 +274,7 @@
                         </Button.Template>
 
                         <Button.Content>
-                            <Image Width="20" Height="20">
+                            <Image Width="15" Height="15">
                                 <Image.Style>
                                     <Style TargetType="Image">
                                         <Setter Property="Source" Value="..\..\Resources\Images\eye1.png"/>
@@ -287,7 +292,8 @@
                         </Button.Content>
                     </Button>
                 </StackPanel>
-                <Button Content="Зарегистрироваться"
+                <Button 
+                        Content="Зарегистрироваться"
                         Style="{StaticResource MaterialDesignRaisedButton}" 
                         Background="Red" 
                         BorderBrush="Transparent"
