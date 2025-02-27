@@ -1,4 +1,4 @@
-﻿using Strunchik.View.StartWindow.Pages;
+﻿using Strunchik.View.MainWindow.Pages;
 using Strunchik.ViewModel.MainWindowViewModel;
 using System.Windows;
 

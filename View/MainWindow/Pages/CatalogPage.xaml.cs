@@ -1,7 +1,7 @@
 ﻿using Strunchik.ViewModel.MainWindowViewModel;
 using System.Windows.Controls;
 
-namespace Strunchik.View.StartWindow.Pages;
+namespace Strunchik.View.MainWindow.Pages;
 
 public partial class CatalogPage : Page
 {

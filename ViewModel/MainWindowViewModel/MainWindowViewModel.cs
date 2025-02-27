@@ -3,6 +3,7 @@ using Strunchik.Model.Item;
 using Strunchik.View.StartWindow;
 using Strunchik.ViewModel.Commands;
 using Strunchik.ViewModel.Services.SearchService;
+using Strunchik.ViewModel.Services.UserSaveService;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -18,6 +19,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private GridLength _selectedWidth = new(0);
     private string _searchString = "";
     private bool _isUserNotAuthorizate = true;
+    private UserSaveService _userSaveService;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<ItemModel>? ItemSelected;
@@ -81,6 +83,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public MainWindowViewModel()
     {
         _context = new ApplicationContext.ApplicationContext();
+        _userSaveService = new UserSaveService();
 
         _context.Database.EnsureCreated();
         _context.Items.Load();
@@ -116,7 +119,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         var window = (Window)_;
 
-        /* Сделать сохранение данных пользователя */
+        _userSaveService.DeleteUserData();
 
         window.Close();
     }

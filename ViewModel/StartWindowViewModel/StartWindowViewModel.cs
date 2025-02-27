@@ -17,7 +17,7 @@ public class StartWindowViewModel : INotifyPropertyChanged
     private string _errorAuthMessage = "";
     private bool _isEnabledAuthButton = true;
     private bool _isEnabledRegButton = true;
-    private UserSaveService _userSaveService;
+    private readonly UserSaveService _userSaveService;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
