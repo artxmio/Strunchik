@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Strunchik.Model.Item;
+using Strunchik.Model.User;
 using Strunchik.View.StartWindow;
 using Strunchik.ViewModel.Commands;
 using Strunchik.ViewModel.Services.SearchService;
@@ -20,6 +21,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private string _searchString = "";
     private bool _isUserNotAuthorizate = true;
     private UserSaveService _userSaveService;
+    private UserModel _currentUser = new UserModel();
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<ItemModel>? ItemSelected;
@@ -35,6 +37,17 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
     public ObservableCollection<ItemModel> Items { get; set; }
+
+    public UserModel CurrentUser
+    {
+        get => _currentUser;
+        set
+        {
+            _currentUser = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ICommand DragWindowCommand { get; }
     public ICommand RestoreWindowCommand { get; }
     public ICommand RollWindowCommand { get; }
@@ -42,6 +55,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand OpenAuthorizationRegistrationCommand { get; }
     public ICommand CloseItemDescriptionCommand { get; }
     public ICommand ExitCommand { get; }
+
+    public ICommand ChangeNameCommand { get; }
+    public ICommand ApllyNameCommand { get; }
 
     public GridLength SelectedWidth
     {
@@ -87,7 +103,17 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         _context.Database.EnsureCreated();
         _context.Items.Load();
+        _context.Users.Load();
         Items = _context.Items.Local.ToObservableCollection();
+
+
+        var curr = _context.Users.Local.FirstOrDefault(user => user.Email == _userSaveService.User.Email);
+
+        if (curr is not null)
+        {
+            CurrentUser = curr;
+            _isUserNotAuthorizate = false;
+        }
 
         DragWindowCommand = new RelayCommand(_ => DragWindow(_));
         RestoreWindowCommand = new RelayCommand(_ => RestoreWindow(_));
@@ -96,6 +122,31 @@ public class MainWindowViewModel : INotifyPropertyChanged
         CloseItemDescriptionCommand = new RelayCommand(_ => CloseItemDescription());
         OpenAuthorizationRegistrationCommand = new RelayCommand(_ => OpenAuthorizationRegistration());
         ExitCommand = new RelayCommand(_ => Exit(_));
+
+        ChangeNameCommand = new RelayCommand(_ => ChangeName());
+        ApllyNameCommand = new RelayCommand(_ => ApplyChanges());
+    }
+
+    private bool _nameTextboxCanEdit = false;
+
+    public bool NameTextboxCanEdit
+    {
+        get => _nameTextboxCanEdit;
+        set
+        {
+            _nameTextboxCanEdit = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private void ChangeName()
+    {
+        _nameTextboxCanEdit = true;
+    }
+
+    private void ApplyChanges()
+    {
+        NameTextboxCanEdit = false;
     }
 
     private void OpenAuthorizationRegistration()

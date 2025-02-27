@@ -126,8 +126,13 @@
                               IsEnabled="{Binding IsUserNotAuthorizate}"
                               Command="{Binding OpenAuthorizationRegistrationCommand}"/>
                     <Separator/>
-                    <MenuItem Foreground="Black" Header="Мой профиль"/>
-                    <MenuItem Foreground="Black" Header="Корзина"/>
+                    <MenuItem Foreground="Black" 
+                              Header="Мой профиль"
+                              Click="Profile_Click"
+                              IsEnabled="{Binding IsUserAuthorizate}"/>
+                    <MenuItem Foreground="Black" 
+                              Header="Корзина"
+                              IsEnabled="{Binding IsUserAuthorizate}"/>
                     <Separator/>
                     <MenuItem Foreground="Black" 
                               Command="{Binding ExitCommand}"

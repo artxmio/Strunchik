@@ -22,4 +22,10 @@ public partial class MainWindow : Window
         var viewModel = (MainWindowViewModel)DataContext;
         viewModel.DragWindowCommand.Execute(this);
     }
+
+    private void Profile_Click(object sender, RoutedEventArgs e)
+    {
+        var page = new ProfilePage(_viewModel);
+        MainFrame.Navigate(page);
+    }
 }

@@ -14,6 +14,7 @@ public class UserSaveService
     public UserSaveService()
     {
         GetApplicationFolder();
+        LoadUserData();
     }
 
     private void GetApplicationFolder()
