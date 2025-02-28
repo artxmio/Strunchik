@@ -5,7 +5,6 @@ using Strunchik.View.StartWindow;
 using Strunchik.ViewModel.Commands;
 using Strunchik.ViewModel.Services.SearchService;
 using Strunchik.ViewModel.Services.UserSaveService;
-using Strunchik.ViewModel.StartWindowViewModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -89,6 +88,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand ExitCommand { get; }
 
     public ICommand SaveCommand { get; }
+    public ICommand DeleteAccountCommand { get; }
 
     public GridLength SelectedWidth
     {
@@ -154,10 +154,24 @@ public class MainWindowViewModel : INotifyPropertyChanged
         CloseItemDescriptionCommand = new RelayCommand(_ => CloseItemDescription());
         OpenAuthorizationRegistrationCommand = new RelayCommand(_ => OpenAuthorizationRegistration());
         ExitCommand = new RelayCommand(_ => Exit(_));
+        DeleteAccountCommand = new RelayCommand(_ => DeleteAccount());
 
         SaveCommand = new RelayCommand(_ => Save());
     }
 
+    private void DeleteAccount()
+    {
+        if (CurrentUser is not null)
+        {
+            _context.Users.Remove(CurrentUser);
+            CurrentUser.Name = "";
+            CurrentUser.Password = "";
+            CurrentUser.Email = "";
+            OnPropertyChanged(nameof(CurrentUser));
+            _context.SaveChanges();
+            MessageBox.Show("Аккаунт удалён", "Успех");
+        }
+    }
 
     private void Save()
     {
@@ -183,6 +197,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             IsUserNotAuthorizate = !(bool)result;
             if (authRegViewModel.AuthUser is not null)
             {
+                _context.Users.Load();
                 CurrentUser = _context.Users.Local.First(user => authRegViewModel.AuthUser.Email == user.Email);
             }
 
@@ -211,7 +226,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         Items = string.IsNullOrEmpty(SearchString) ? _context.Items.Local.ToObservableCollection() : SearchService.Find(Items, _searchString);
         OnPropertyChanged(nameof(Items));
     }
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
