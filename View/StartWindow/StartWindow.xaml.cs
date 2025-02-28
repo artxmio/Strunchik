@@ -6,11 +6,15 @@ namespace Strunchik.View.StartWindow;
 
 public partial class StartWindow : Window
 {
-    public StartWindow()
+    private StartWindowViewModel _viewModel;
+
+    public StartWindow(StartWindowViewModel viewMolel)
     {
         InitializeComponent();
 
-        this.DataContext = new StartWindowViewModel();
+        _viewModel = viewMolel;
+
+        this.DataContext = viewMolel;
     }
 
     private void TitleBar_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

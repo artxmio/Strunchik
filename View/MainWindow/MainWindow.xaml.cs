@@ -6,12 +6,12 @@ namespace Strunchik.View.MainWindow;
 
 public partial class MainWindow : Window
 {
-    private readonly MainWindowViewModel _viewModel = new MainWindowViewModel();
+    public MainWindowViewModel _viewModel;
 
     public MainWindow()
     {
         InitializeComponent();
-
+        _viewModel = new MainWindowViewModel();
         DataContext = _viewModel;
         var page = new CatalogPage(_viewModel);
         MainFrame.Navigate(page);
@@ -23,9 +23,15 @@ public partial class MainWindow : Window
         viewModel.DragWindowCommand.Execute(this);
     }
 
-    private void Profile_Click(object sender, RoutedEventArgs e)
+    private void OpenProfilePage(object sender, RoutedEventArgs e)
     {
         var page = new ProfilePage(_viewModel);
+        MainFrame.Navigate(page);
+    }
+
+    private void OpenCatalogPage(object sender, RoutedEventArgs e)
+    {
+        var page = new CatalogPage(_viewModel);
         MainFrame.Navigate(page);
     }
 }

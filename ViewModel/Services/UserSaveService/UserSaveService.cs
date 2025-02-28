@@ -94,10 +94,12 @@ public class UserSaveService
     }
     public void LoadUserData()
     {
-        var jsonString = File.ReadAllText(ApplicationFolder + @"\data.json");
+        if (File.Exists(ApplicationFolder + @"\data.json"))
+        {
+            var jsonString = File.ReadAllText(ApplicationFolder + @"\data.json");
 
-        User = JsonConvert.DeserializeObject<SerializableUser>(jsonString)
-            ?? throw new InvalidOperationException("Deserialized memento can't be null");
+            User = JsonConvert.DeserializeObject<SerializableUser>(jsonString);
+        }
     }
 
 }

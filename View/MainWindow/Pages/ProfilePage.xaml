@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Strunchik.View.MainWindow.Pages"
+      xmlns:validations="clr-namespace:Strunchik.ViewModel.Validation"
       mc:Ignorable="d" 
       xmlns:vm="clr-namespace:Strunchik.ViewModel.MainWindowViewModel"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -31,6 +32,12 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Margin" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" 
+                                    Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Page.Resources>
     <Grid>
@@ -42,7 +49,10 @@
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="1" CornerRadius="15" Background="#2e2e2e" Padding="20" Margin="10" materialDesign:ShadowAssist.Darken="True">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel
+                Width="400"
+                MaxWidth="400"
+                Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Foreground="White" Text="Профиль пользователя" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 10 0 20"/>
 
                 <Border CornerRadius="10" Background="LightGray" Margin="10">
@@ -56,12 +66,22 @@
 
                         <TextBlock Text="Имя: " FontSize="16"/>
                         <TextBox x:Name="UserNameTextBox"
-                                 Text="{Binding CurrentUser.Name}" 
-                                 IsReadOnly="{Binding NameTextboxCanEdit}"
+                                 MaxLength="50"
+                                 Cursor="Arrow"
+                                 IsReadOnly="{Binding NameTextboxIsReadOnly}"
                                  d:Text="example"
                                  Grid.Column="1"
                                  Style="{StaticResource TextBoxAsTextBlockStyle}"
-                                 KeyDown="TextBox_KeyDown"/>
+                                 LostFocus="UserNameTextBox_LostFocus">
+
+                            <TextBox.Text>
+                                <Binding Path="CurrentUser.Name" UpdateSourceTrigger="PropertyChanged" NotifyOnTargetUpdated="True">
+                                    <Binding.ValidationRules>
+                                        <validations:NameValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
 
                         <Button 
                             Grid.Column="2" 
@@ -72,10 +92,8 @@
                             Background="Transparent" 
                             BorderBrush="Transparent"
                             Click="ChangeNameButton_Click"
-                            Padding="0"                
-                            Command="{Binding ChangeNameCommand}"
-                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
-                            
+                            Padding="0">
+
                             <Button.Content>
                                 <Image Source="/Resources/Images/edit.png"/>
                             </Button.Content>
@@ -93,21 +111,33 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="Почта: " FontSize="16"/>
-                        <TextBlock 
-                        Grid.Column="1" 
-                        Text="{Binding CurrentUser.Email}" 
-                        d:Text="example@gmail.com"
-                        FontSize="16"/>
+                        <TextBox x:Name="EmailTextBox"
+                                 MaxLength="50"
+                                 Cursor="Arrow"
+                                 IsReadOnly="{Binding EmailTextboxIsReadOnly}"
+                                 d:Text="example"
+                                 Grid.Column="1"
+                                 Style="{StaticResource TextBoxAsTextBlockStyle}"
+                                 LostFocus="EmailNameTextBox_LostFocus">
+
+                            <TextBox.Text>
+                                <Binding Path="CurrentUser.Email" UpdateSourceTrigger="PropertyChanged" NotifyOnTargetUpdated="True">
+                                    <Binding.ValidationRules>
+                                        <validations:EmailValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         <Button 
-                    Grid.Column="2" 
-                    Width="15"
-                    Height="15"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right" 
-                    Background="Transparent" 
-                    BorderBrush="Transparent"
-                    Padding="0"                
-                    Command="{Binding RestoreWindowCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                                Grid.Column="2" 
+                                Width="15"
+                                Height="15"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right" 
+                                Background="Transparent" 
+                                BorderBrush="Transparent"
+                                Padding="0"
+                                Click="ChangeEmailButton_Click">
                             <Button.Content>
                                 <Image Source="/Resources/Images/edit.png"/>
                             </Button.Content>
@@ -125,11 +155,23 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="Пароль: " FontSize="16"/>
-                        <TextBlock 
-                        Grid.Column="1" 
-                        Text="{Binding CurrentUser.Password}" 
-                        d:Text="example"
-                        FontSize="16"/>
+                        <TextBox x:Name="PasswordTextBox"
+                                 MaxLength="25"
+                                 Cursor="Arrow"
+                                 IsReadOnly="{Binding PasswordTextboxIsReadOnly}"
+                                 d:Text="example"
+                                 Grid.Column="1"
+                                 Style="{StaticResource TextBoxAsTextBlockStyle}"
+                                 LostFocus="PasswordNameTextBox_LostFocus">
+
+                            <TextBox.Text>
+                                <Binding Path="CurrentUser.Password" UpdateSourceTrigger="PropertyChanged" NotifyOnTargetUpdated="True">
+                                    <Binding.ValidationRules>
+                                        <validations:PasswordValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
 
                         <Button 
                             Grid.Column="2" 
@@ -140,8 +182,7 @@
                             Background="Transparent" 
                             BorderBrush="Transparent"
                             Padding="0"                
-                            Command="{Binding RestoreWindowCommand}"
-                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                            Click="ChangePasswordButton_Click">
                             <Button.Content>
                                 <Image Source="/Resources/Images/edit.png"/>
                             </Button.Content>
@@ -149,9 +190,10 @@
                     </Grid>
                 </Border>
 
+                <Button Content="Сохранить изменения"
+                        Style="{StaticResource ButtonStyle}"
+                        Command="{Binding SaveCommand}"/>
                 <Button Content="История покупок"
-                        Style="{StaticResource ButtonStyle}"/>
-                <Button Content="Корзина"
                         Style="{StaticResource ButtonStyle}"/>
                 <Button Content="Удалить аккаунт"
                         Style="{StaticResource ButtonStyle}"/>

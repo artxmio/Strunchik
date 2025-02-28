@@ -5,6 +5,7 @@ using Strunchik.View.StartWindow;
 using Strunchik.ViewModel.Commands;
 using Strunchik.ViewModel.Services.SearchService;
 using Strunchik.ViewModel.Services.UserSaveService;
+using Strunchik.ViewModel.StartWindowViewModel;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -22,6 +23,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private bool _isUserNotAuthorizate = true;
     private UserSaveService _userSaveService;
     private UserModel _currentUser = new UserModel();
+    private bool _emailTextboxIsReadOnly = true;
+    private bool _nameTextboxIsReadOnly = true;
+    private bool _passwordTextboxIsReadOnly = true;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<ItemModel>? ItemSelected;
@@ -47,6 +51,34 @@ public class MainWindowViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+    
+    public bool NameTextboxIsReadOnly
+    {
+        get => _nameTextboxIsReadOnly;
+        set
+        {
+            _nameTextboxIsReadOnly = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool EmailTextboxIsReadOnly
+    {
+        get => _emailTextboxIsReadOnly;
+        set
+        {
+            _emailTextboxIsReadOnly = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool PasswordTextboxIsReadOnly
+    {
+        get => _passwordTextboxIsReadOnly;
+        set
+        {
+            _passwordTextboxIsReadOnly = value;
+            OnPropertyChanged();
+        }
+    }
 
     public ICommand DragWindowCommand { get; }
     public ICommand RestoreWindowCommand { get; }
@@ -56,8 +88,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand CloseItemDescriptionCommand { get; }
     public ICommand ExitCommand { get; }
 
-    public ICommand ChangeNameCommand { get; }
-    public ICommand ApllyNameCommand { get; }
+    public ICommand SaveCommand { get; }
 
     public GridLength SelectedWidth
     {
@@ -106,15 +137,16 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _context.Users.Load();
         Items = _context.Items.Local.ToObservableCollection();
 
-
-        var curr = _context.Users.Local.FirstOrDefault(user => user.Email == _userSaveService.User.Email);
-
-        if (curr is not null)
+        if (_userSaveService.User is not null)
         {
-            CurrentUser = curr;
-            _isUserNotAuthorizate = false;
-        }
+            var curr = _context.Users.Local.FirstOrDefault(user => user.Email == _userSaveService.User.Email);
 
+            if (curr is not null)
+            {
+                CurrentUser = curr;
+                _isUserNotAuthorizate = false;
+            }
+        }
         DragWindowCommand = new RelayCommand(_ => DragWindow(_));
         RestoreWindowCommand = new RelayCommand(_ => RestoreWindow(_));
         RollWindowCommand = new RelayCommand(_ => RollWindow(_));
@@ -123,35 +155,25 @@ public class MainWindowViewModel : INotifyPropertyChanged
         OpenAuthorizationRegistrationCommand = new RelayCommand(_ => OpenAuthorizationRegistration());
         ExitCommand = new RelayCommand(_ => Exit(_));
 
-        ChangeNameCommand = new RelayCommand(_ => ChangeName());
-        ApllyNameCommand = new RelayCommand(_ => ApplyChanges());
+        SaveCommand = new RelayCommand(_ => Save());
     }
 
-    private bool _nameTextboxCanEdit = false;
 
-    public bool NameTextboxCanEdit
+    private void Save()
     {
-        get => _nameTextboxCanEdit;
-        set
+        var user = _context.Users.Local.SingleOrDefault(u => u.Id == CurrentUser.Id);
+
+        if (user is not null)
         {
-            _nameTextboxCanEdit = value;
-            OnPropertyChanged();
+            _context.SaveChanges();
         }
-    }
-
-    private void ChangeName()
-    {
-        _nameTextboxCanEdit = true;
-    }
-
-    private void ApplyChanges()
-    {
-        NameTextboxCanEdit = false;
     }
 
     private void OpenAuthorizationRegistration()
     {
-        var authRegWindow = new StartWindow();
+        var authRegViewModel = new StartWindowViewModel.StartWindowViewModel();
+
+        var authRegWindow = new StartWindow(authRegViewModel);
 
         authRegWindow.ShowDialog();
         var result = authRegWindow.DialogResult;
@@ -159,6 +181,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
         if (result is not null)
         {
             IsUserNotAuthorizate = !(bool)result;
+            if (authRegViewModel.AuthUser is not null)
+            {
+                CurrentUser = _context.Users.Local.First(user => authRegViewModel.AuthUser.Email == user.Email);
+            }
+
             OnPropertyChanged(nameof(IsUserAuthorizate));
         }
         else
