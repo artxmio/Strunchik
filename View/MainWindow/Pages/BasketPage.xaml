@@ -11,7 +11,6 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="BasketPage"
       
-      
       d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
     <Page.Resources>
         <converters:PercentageConverter x:Key="PercentageConverter"/>
@@ -30,16 +29,14 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
         <TextBlock Grid.Row="0" 
                    Text="Ваша корзина" 
-                   FontSize="24" 
+                   FontSize="30" 
                    FontWeight="Bold" 
                    HorizontalAlignment="Center"
                    Margin="10"
                    Foreground="White"/>
 
-        <!-- Список товаров -->
         <ListView Grid.Row="1"
                   Name="CartItemsList"  
                   Foreground="White">
@@ -69,33 +66,30 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="75"/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Итого:" 
                        Grid.Column="0"
                        Foreground="White"
-                       FontSize="16" 
-                       FontWeight="Bold"/>
-            <TextBlock Text="{Binding TotalPrice}" 
-                       FontSize="16" 
+                       FontSize="20" 
+                       Margin="0 0 15 0"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding TotalPrice, StringFormat=C}" 
+                       d:Text="100"
+                       FontSize="20" 
                        Grid.Column="1"
                        Foreground="White"
                        FontWeight="Bold" 
-                       Margin="5,0,0,0"/>
-            <TextBlock Text=" руб." 
-                       Grid.Column="2"
-                       Foreground="White"
-                       FontSize="16" 
-                       FontWeight="Bold"/>
+                       VerticalAlignment="Center"/>
         </Grid>
 
-        <!-- Кнопка оформления заказа -->
         <Button Grid.Row="2" 
                 Content="Оформить заказ" 
-                Width="150" 
-                Height="40" 
+                Width="180" 
+                Height="60" 
                 HorizontalAlignment="Left" 
-                Margin="10" 
+                FontSize="17"
+                Margin="20" 
                 Background="Red"
                 BorderBrush="Transparent"/>
     </Grid>

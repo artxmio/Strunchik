@@ -20,7 +20,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private GridLength _selectedWidth = new(0);
     private string _searchString = "";
     private bool _isUserNotAuthorizate = true;
-    private UserSaveService _userSaveService;
+    private readonly UserSaveService _userSaveService;
     private UserModel _currentUser = new UserModel();
     private bool _emailTextboxIsReadOnly = true;
     private bool _nameTextboxIsReadOnly = true;
@@ -89,6 +89,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public ICommand SaveCommand { get; }
     public ICommand DeleteAccountCommand { get; }
+
+    public int TotalPrice { get => 100; }
 
     public GridLength SelectedWidth
     {

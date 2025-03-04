@@ -11,5 +11,5 @@ public class UserModel
     public string Email { get; set; }
     public string Password { get; set; } = "";
 
-    public BasketModel Basket { get; set; }
+    public ICollection<BasketModel> Baskets { get; set; }
 }
