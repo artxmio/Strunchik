@@ -135,7 +135,8 @@
                               IsEnabled="{Binding IsUserAuthorizate}"/>
                     <MenuItem Foreground="Black" 
                               Header="Корзина"
-                              IsEnabled="{Binding IsUserAuthorizate}"/>
+                              IsEnabled="{Binding IsUserAuthorizate}"
+                              Click="OpenBasketPage"/>
                     <Separator/>
                     <MenuItem Foreground="Black" 
                               Command="{Binding ExitCommand}"

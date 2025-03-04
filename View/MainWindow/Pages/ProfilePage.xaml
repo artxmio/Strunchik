@@ -60,10 +60,10 @@
                 Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Foreground="White" 
                            Text="Профиль пользователя" 
-                           FontSize="24"
+                           FontSize="30"
                            FontWeight="Bold" 
                            HorizontalAlignment="Center" 
-                           Margin="0"/>
+                           Margin="0 0 0 40"/>
 
                 <Border CornerRadius="5" Background="LightGray" Margin="10">
                     <Grid Margin="10">

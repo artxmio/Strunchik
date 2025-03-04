@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Strunchik.Model.Basket;
+using System.ComponentModel.DataAnnotations;
 
 namespace Strunchik.Model.Item;
 
@@ -10,4 +11,7 @@ public class ItemModel
     public string Description { get; set; }
     public int Price { get; set; }
     public ItemsType Type { get; set; }
+
+    public int BasketId { get; set; }
+    public BasketModel Basket { get; set; }
 }

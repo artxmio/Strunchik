@@ -34,4 +34,10 @@ public partial class MainWindow : Window
         var page = new CatalogPage(_viewModel);
         MainFrame.Navigate(page);
     }
+
+    private void OpenBasketPage(object sender, RoutedEventArgs e)
+    {
+        var page = new BasketPage(_viewModel);
+        MainFrame.Navigate(page);
+    }
 }

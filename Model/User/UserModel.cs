@@ -1,9 +1,15 @@
-﻿namespace Strunchik.Model.User;
+﻿using Strunchik.Model.Basket;
+using System.ComponentModel.DataAnnotations;
+
+namespace Strunchik.Model.User;
 
 public class UserModel
 {
-    public int Id { get; set; }
-    public string Name { get; set; }    
+    [Key]
+    public int UserId { get; set; }
+    public string Name { get; set; }
     public string Email { get; set; }
     public string Password { get; set; } = "";
+
+    public BasketModel Basket { get; set; }
 }

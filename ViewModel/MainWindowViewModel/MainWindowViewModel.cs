@@ -50,7 +50,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-    
+
     public bool NameTextboxIsReadOnly
     {
         get => _nameTextboxIsReadOnly;
@@ -163,19 +163,24 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         if (CurrentUser is not null)
         {
-            _context.Users.Remove(CurrentUser);
-            CurrentUser.Name = "";
-            CurrentUser.Password = "";
-            CurrentUser.Email = "";
-            OnPropertyChanged(nameof(CurrentUser));
-            _context.SaveChanges();
-            MessageBox.Show("Аккаунт удалён", "Успех");
+            var result = MessageBox.Show("Вы уверены, что хотите удалить свой аккаунт?", "Внимание", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                _context.Users.Remove(CurrentUser);
+                CurrentUser.Name = "";
+                CurrentUser.Password = "";
+                CurrentUser.Email = "";
+                OnPropertyChanged(nameof(CurrentUser));
+                _context.SaveChanges();
+                MessageBox.Show("Аккаунт удалён", "Успех");
+            }
         }
     }
 
     private void Save()
     {
-        var user = _context.Users.Local.SingleOrDefault(u => u.Id == CurrentUser.Id);
+        var user = _context.Users.Local.SingleOrDefault(u => u.UserId == CurrentUser.UserId);
 
         if (user is not null)
         {
@@ -195,7 +200,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         if (result is not null)
         {
             IsUserNotAuthorizate = !(bool)result;
-            if (authRegViewModel.AuthUser is not null)
+            if ((bool)result)
             {
                 _context.Users.Load();
                 CurrentUser = _context.Users.Local.First(user => authRegViewModel.AuthUser.Email == user.Email);
