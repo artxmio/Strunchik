@@ -3,14 +3,22 @@ using System.Collections.ObjectModel;
 
 namespace Strunchik.ViewModel.Services.SearchService;
 
-public static class SearchService
+public class SearchService
 {
-    //return a collection with all items matching str
-    public static ObservableCollection<ItemModel> Find(ObservableCollection<ItemModel> collection, string str)
+    private string _searchString = "";
+
+    public string SearchString
     {
-        if (string.IsNullOrEmpty(str)) 
+        get => _searchString; 
+        set => _searchString = value;
+    }
+
+    //return a collection with all items matching str
+    public ObservableCollection<ItemModel> Find(ObservableCollection<ItemModel> collection)
+    {
+        if (string.IsNullOrEmpty(_searchString)) 
             return collection;
 
-        return new(collection.Where(obj => obj.Title.Contains(str, StringComparison.OrdinalIgnoreCase)));
+        return [.. collection.Where(obj => obj.Title.Contains(_searchString, StringComparison.OrdinalIgnoreCase))];
     }
 }

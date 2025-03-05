@@ -21,7 +21,7 @@ public partial class CatalogPage : Page
         if (e.Key == System.Windows.Input.Key.Enter)
         {
             _viewModel.SearchString = searchBox.Text;
-            _viewModel.OnEnterDown();
+            _viewModel.SearchItems();
         }
     }
 }

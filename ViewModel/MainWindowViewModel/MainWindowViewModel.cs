@@ -18,7 +18,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly ApplicationContext.ApplicationContext _context;
     private ItemModel _selectedItem = null!;
     private GridLength _selectedWidth = new(0);
-    private string _searchString = "";
+    private readonly SearchService _searchService;
     private bool _isUserNotAuthorizate = true;
     private readonly UserSaveService _userSaveService;
     private UserModel _currentUser = new UserModel();
@@ -107,10 +107,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
     }
     public string SearchString
     {
-        get => _searchString;
+        get => _searchService.SearchString;
         set
         {
-            _searchString = value;
+            _searchService.SearchString = value;
             OnPropertyChanged();
         }
     }
@@ -133,6 +133,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         _context = new ApplicationContext.ApplicationContext();
         _userSaveService = new UserSaveService();
+        _searchService = new SearchService();
 
         _context.Database.EnsureCreated();
         _context.Items.Load();
@@ -228,11 +229,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _selectedItem = null!;
         OnItemSelected(new GridLength(0));
     }
-    public void OnEnterDown()
+    
+    // search items by _searchString
+    public void SearchItems()
     {
-        Items = string.IsNullOrEmpty(SearchString) ? _context.Items.Local.ToObservableCollection() : SearchService.Find(Items, _searchString);
+        Items = string.IsNullOrEmpty(SearchString) ? _context.Items.Local.ToObservableCollection() : _searchService.Find(Items);
         OnPropertyChanged(nameof(Items));
     }
+
+    //event processing
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
