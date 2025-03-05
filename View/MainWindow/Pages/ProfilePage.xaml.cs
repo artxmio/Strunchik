@@ -1,7 +1,6 @@
 ﻿using Strunchik.ViewModel.MainWindowViewModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Strunchik.View.MainWindow.Pages;
 

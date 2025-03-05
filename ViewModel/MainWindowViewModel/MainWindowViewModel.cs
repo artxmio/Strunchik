@@ -3,6 +3,7 @@ using Strunchik.Model.Item;
 using Strunchik.Model.User;
 using Strunchik.View.StartWindow;
 using Strunchik.ViewModel.Commands;
+using Strunchik.ViewModel.Services.ProfileTextBoxsService;
 using Strunchik.ViewModel.Services.SearchService;
 using Strunchik.ViewModel.Services.UserSaveService;
 using System.Collections.ObjectModel;
@@ -18,13 +19,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly ApplicationContext.ApplicationContext _context;
     private ItemModel _selectedItem = null!;
     private GridLength _selectedWidth = new(0);
+
     private readonly SearchService _searchService;
+    private readonly ProfileTextBoxsService _profileTextBoxsService;
+
     private bool _isUserNotAuthorizate = true;
     private readonly UserSaveService _userSaveService;
-    private UserModel _currentUser = new UserModel();
-    private bool _emailTextboxIsReadOnly = true;
-    private bool _nameTextboxIsReadOnly = true;
-    private bool _passwordTextboxIsReadOnly = true;
+    private UserModel _currentUser = new();
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<ItemModel>? ItemSelected;
@@ -53,28 +54,28 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public bool NameTextboxIsReadOnly
     {
-        get => _nameTextboxIsReadOnly;
+        get => _profileTextBoxsService.GetTextBoxState("name");
         set
         {
-            _nameTextboxIsReadOnly = value;
+            _profileTextBoxsService.SetTextBoxState("name", value);
             OnPropertyChanged();
         }
     }
     public bool EmailTextboxIsReadOnly
     {
-        get => _emailTextboxIsReadOnly;
+        get => _profileTextBoxsService.GetTextBoxState("email");
         set
         {
-            _emailTextboxIsReadOnly = value;
+            _profileTextBoxsService.SetTextBoxState("email", value);
             OnPropertyChanged();
         }
     }
     public bool PasswordTextboxIsReadOnly
     {
-        get => _passwordTextboxIsReadOnly;
+        get => _profileTextBoxsService.GetTextBoxState("password");
         set
         {
-            _passwordTextboxIsReadOnly = value;
+            _profileTextBoxsService.SetTextBoxState("password", value);
             OnPropertyChanged();
         }
     }
@@ -134,6 +135,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _context = new ApplicationContext.ApplicationContext();
         _userSaveService = new UserSaveService();
         _searchService = new SearchService();
+        _profileTextBoxsService = new ProfileTextBoxsService();
 
         _context.Database.EnsureCreated();
         _context.Items.Load();
@@ -150,6 +152,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 _isUserNotAuthorizate = false;
             }
         }
+        
         DragWindowCommand = new RelayCommand(_ => DragWindow(_));
         RestoreWindowCommand = new RelayCommand(_ => RestoreWindow(_));
         RollWindowCommand = new RelayCommand(_ => RollWindow(_));
