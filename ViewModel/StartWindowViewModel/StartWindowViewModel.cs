@@ -150,8 +150,7 @@ public class StartWindowViewModel : INotifyPropertyChanged
             else
             {
                 window.DialogResult = true;
-                var user = new SerializableUser(AuthUser);
-                _userSaveService.SaveUserData(user);
+                _userSaveService.SaveUserData(AuthUser);
                 window.Close();
             }
         }

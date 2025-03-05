@@ -27,8 +27,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly UserSaveService _userSaveService;
     private UserModel _currentUser = new();
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-    public event EventHandler<ItemModel>? ItemSelected;
 
     public ItemModel SelectedItem
     {
@@ -52,6 +50,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
+    // Profile TextBoxs ReadOnly States
     public bool NameTextboxIsReadOnly
     {
         get => _profileTextBoxsService.GetTextBoxState("name");
@@ -80,6 +79,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
+    // Commands
+    #region
     public ICommand DragWindowCommand { get; }
     public ICommand RestoreWindowCommand { get; }
     public ICommand RollWindowCommand { get; }
@@ -90,6 +91,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public ICommand SaveCommand { get; }
     public ICommand DeleteAccountCommand { get; }
+    #endregion
 
     public int TotalPrice { get => 100; }
 
@@ -123,6 +125,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             _isUserNotAuthorizate = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(IsUserAuthorizate));
         }
     }
     public bool IsUserAuthorizate
@@ -158,8 +161,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         RollWindowCommand = new RelayCommand(_ => RollWindow(_));
         CloseWindowCommand = new RelayCommand(_ => CloseWindow(_));
         CloseItemDescriptionCommand = new RelayCommand(_ => CloseItemDescription());
-        OpenAuthorizationRegistrationCommand = new RelayCommand(_ => OpenAuthorizationRegistration());
-        ExitCommand = new RelayCommand(_ => Exit(_));
+        OpenAuthorizationRegistrationCommand = new RelayCommand(_ => OpenAuthWindow());
+        ExitCommand = new RelayCommand(_ => Exit());
         DeleteAccountCommand = new RelayCommand(_ => DeleteAccount());
 
         SaveCommand = new RelayCommand(_ => Save());
@@ -191,10 +194,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
         if (user is not null)
         {
             _context.SaveChanges();
+            _userSaveService.SaveUserData(CurrentUser);
         }
     }
 
-    private void OpenAuthorizationRegistration()
+    private void OpenAuthWindow()
     {
         var authRegViewModel = new StartWindowViewModel.StartWindowViewModel();
 
@@ -219,13 +223,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
             throw new NullReferenceException();
         }
     }
-    private void Exit(object _)
+    private void Exit()
     {
-        var window = (Window)_;
-
         _userSaveService.DeleteUserData();
-
-        window.Close();
+        CurrentUser = null;
+        IsUserNotAuthorizate = true;
     }
     private void CloseItemDescription()
     {
@@ -241,6 +243,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
     }
 
     //event processing
+    public event PropertyChangedEventHandler? PropertyChanged;
+    public event EventHandler<ItemModel>? ItemSelected;
+
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

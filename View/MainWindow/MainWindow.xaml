@@ -142,7 +142,8 @@
                               Command="{Binding ExitCommand}"
                               IsEnabled="{Binding IsUserAuthorizate}"
                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                              Header="Выход"/>
+                              Header="Выход"
+                              Click="OpenCatalogPage"/>
                 </MenuItem>
                 <MenuItem Header="Справка">
                     <MenuItem Foreground="Black" Header="О программе"/>

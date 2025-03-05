@@ -9,7 +9,7 @@ public class UserSaveService
 {
     private string ApplicationFolder = "";
 
-    public SerializableUser User { get; set; } = new();
+    public SerializableUser User { get; set; } = null!;
 
     public UserSaveService()
     {
@@ -28,11 +28,12 @@ public class UserSaveService
         Directory.CreateDirectory(ApplicationFolder);
     }
 
-    public void SaveUserData(SerializableUser user)
+    public void SaveUserData(UserModel user)
     {
         try
         {
-            var json = JsonConvert.SerializeObject(user);
+            var serializableUser = new SerializableUser(user);
+            var json = JsonConvert.SerializeObject(serializableUser);
 
             File.WriteAllText(ApplicationFolder + @"\data.json", json);
         }
