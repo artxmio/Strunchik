@@ -38,19 +38,27 @@
                    Foreground="White"/>
 
         <ListView Grid.Row="1"
-                  Name="CartItemsList"  
+                  Name="CartItemsList" 
+                  ItemsSource="{Binding CartItems}"
                   Foreground="White">
             <ListView.View>
                 <GridView>
                     <GridViewColumn 
                         Header="Товар" 
-                        DisplayMemberBinding="{Binding Name}" 
+                        DisplayMemberBinding="{Binding Item.Title}" 
                         HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"
-                        Width="{Binding ElementName=CartItemsList, Path=ActualWidth, Converter={StaticResource PercentageConverter}, ConverterParameter=0.75}"/>
+                        Width="{Binding ElementName=CartItemsList, Path=ActualWidth, Converter={StaticResource PercentageConverter}, ConverterParameter=0.50}"/>
 
                     <GridViewColumn 
                         Header="Цена"
-                        DisplayMemberBinding="{Binding Price}" 
+                        DisplayMemberBinding="{Binding Item.Price}" 
+                        HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"
+                        Width="{Binding ElementName=CartItemsList, Path=ActualWidth, Converter={StaticResource PercentageConverter}, ConverterParameter=0.25}"
+                    />
+
+                    <GridViewColumn 
+                        Header="Количество"
+                        DisplayMemberBinding="{Binding Quantity}" 
                         HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"
                         Width="{Binding ElementName=CartItemsList, Path=ActualWidth, Converter={StaticResource PercentageConverter}, ConverterParameter=0.25}"
                     />

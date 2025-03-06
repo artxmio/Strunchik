@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Strunchik.Model.Basket;
+using Strunchik.Model.CartItem;
 using Strunchik.Model.Item;
 using Strunchik.Model.User;
 using Strunchik.View.StartWindow;
 using Strunchik.ViewModel.Commands;
+using Strunchik.ViewModel.Services.BasketService;
 using Strunchik.ViewModel.Services.ProfileTextBoxsService;
 using Strunchik.ViewModel.Services.SearchService;
 using Strunchik.ViewModel.Services.UserSaveService;
@@ -22,11 +25,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private readonly SearchService _searchService;
     private readonly ProfileTextBoxsService _profileTextBoxsService;
+    private readonly UserSaveService _userSaveService;
+    private readonly BasketService _basketService;
 
     private bool _isUserNotAuthorizate = true;
-    private readonly UserSaveService _userSaveService;
     private UserModel _currentUser = new();
-
 
     public ItemModel SelectedItem
     {
@@ -49,6 +52,19 @@ public class MainWindowViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+
+    private BasketModel _basket;
+    public BasketModel Basket
+    {
+        get => _basket;
+        set
+        {
+            _basket = value;
+            OnPropertyChanged(nameof(Basket));
+            OnPropertyChanged(nameof(CartItems));
+        }
+    }
+    public ObservableCollection<CartItemModel> CartItems => [.. Basket?.CartItems ?? []];
 
     // Profile TextBoxs ReadOnly States
     public bool NameTextboxIsReadOnly
@@ -88,6 +104,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand OpenAuthorizationRegistrationCommand { get; }
     public ICommand CloseItemDescriptionCommand { get; }
     public ICommand ExitCommand { get; }
+    public ICommand AddItemToBasketCommand { get; }
 
     public ICommand SaveCommand { get; }
     public ICommand DeleteAccountCommand { get; }
@@ -139,10 +156,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _userSaveService = new UserSaveService();
         _searchService = new SearchService();
         _profileTextBoxsService = new ProfileTextBoxsService();
+        _basketService = new BasketService(_context);
 
         _context.Database.EnsureCreated();
         _context.Items.Load();
         _context.Users.Load();
+        _context.Baskets.Load();
+        _context.CartItems.Load();
         Items = _context.Items.Local.ToObservableCollection();
 
         if (_userSaveService.User is not null)
@@ -153,9 +173,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
             {
                 CurrentUser = curr;
                 _isUserNotAuthorizate = false;
+                _basket = _context.Baskets.Local.FirstOrDefault(b => b.UserId == curr.UserId);
             }
         }
-        
+
         DragWindowCommand = new RelayCommand(_ => DragWindow(_));
         RestoreWindowCommand = new RelayCommand(_ => RestoreWindow(_));
         RollWindowCommand = new RelayCommand(_ => RollWindow(_));
@@ -164,6 +185,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         OpenAuthorizationRegistrationCommand = new RelayCommand(_ => OpenAuthWindow());
         ExitCommand = new RelayCommand(_ => Exit());
         DeleteAccountCommand = new RelayCommand(_ => DeleteAccount());
+        AddItemToBasketCommand = new RelayCommand(_ => _basketService.AddItemToBasket(CurrentUser.UserId, SelectedItem.ItemId, 1));
 
         SaveCommand = new RelayCommand(_ => Save());
     }
@@ -234,7 +256,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _selectedItem = null!;
         OnItemSelected(new GridLength(0));
     }
-    
+
     // search items by _searchString
     public void SearchItems()
     {

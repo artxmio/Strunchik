@@ -25,18 +25,16 @@ public class ApplicationContext : DbContext
             .Property(i => i.Type)
             .HasConversion<int>();
 
-        modelBuilder.Entity<BasketModel>()
-                  .HasOne(b => b.User)
-                  .WithMany(u => u.Baskets)
-                  .HasForeignKey(b => b.UserId);
+        modelBuilder.Entity<UserModel>()
+            .HasOne(u => u.Basket)
+            .WithOne(b => b.User)
+            .HasForeignKey<BasketModel>(b => b.UserId);
 
-        // Связь между CartItem и Basket
         modelBuilder.Entity<CartItemModel>()
             .HasOne(ci => ci.Basket)
             .WithMany(b => b.CartItems)
             .HasForeignKey(ci => ci.BasketId);
 
-        // Связь между CartItem и Item
         modelBuilder.Entity<CartItemModel>()
             .HasOne(ci => ci.Item)
             .WithMany(i => i.CartItems)
