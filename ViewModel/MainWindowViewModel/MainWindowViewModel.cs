@@ -108,6 +108,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public ICommand SaveCommand { get; }
     public ICommand DeleteAccountCommand { get; }
+
+    public ICommand DecreaseQuantityCommand { get; }
+    public ICommand IncreaseQuantityCommand { get; }
     #endregion
 
     public int TotalPrice { get => 100; }
@@ -145,9 +148,17 @@ public class MainWindowViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(IsUserAuthorizate));
         }
     }
-    public bool IsUserAuthorizate
+    public bool IsUserAuthorizate => !_isUserNotAuthorizate;
+
+    private int _quantity;
+    public int Quantity
     {
-        get => !_isUserNotAuthorizate;
+        get => _quantity;
+        set
+        {
+            _quantity = value;
+            OnPropertyChanged(nameof(Quantity));
+        }
     }
 
     public MainWindowViewModel()
@@ -169,13 +180,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             var curr = _context.Users.Local.FirstOrDefault(user => user.Email == _userSaveService.User.Email);
 
-            if (curr is not null)
-            {
-                CurrentUser = curr;
-                _isUserNotAuthorizate = false;
-                _basket = _context.Baskets.Local.FirstOrDefault(b => b.UserId == curr.UserId);
-            }
+            CurrentUser = curr ?? new UserModel();
+            _isUserNotAuthorizate = false;
         }
+        _basket = _context.Baskets.Local.FirstOrDefault(b => b.UserId == CurrentUser.UserId)
+                    ?? new BasketModel();
 
         DragWindowCommand = new RelayCommand(_ => DragWindow(_));
         RestoreWindowCommand = new RelayCommand(_ => RestoreWindow(_));
@@ -185,7 +194,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
         OpenAuthorizationRegistrationCommand = new RelayCommand(_ => OpenAuthWindow());
         ExitCommand = new RelayCommand(_ => Exit());
         DeleteAccountCommand = new RelayCommand(_ => DeleteAccount());
-        AddItemToBasketCommand = new RelayCommand(_ => _basketService.AddItemToBasket(CurrentUser.UserId, SelectedItem.ItemId, 1));
+        AddItemToBasketCommand = new RelayCommand(_ => _basketService.AddItemToBasket(CurrentUser.UserId, SelectedItem.ItemId, Quantity));
+
+        IncreaseQuantityCommand = new RelayCommand(_ => Quantity++);
+        DecreaseQuantityCommand = new RelayCommand(_ => { if (Quantity > 1) Quantity--; });
 
         SaveCommand = new RelayCommand(_ => Save());
     }
@@ -276,6 +288,19 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         SelectedWidth = width;
         ItemSelected?.Invoke(this, SelectedItem);
+    }
+
+    private void IncreaseQuantity()
+    {
+        Quantity++;
+    }
+
+    private void DecreaseQuantity()
+    {
+        if (Quantity > 1)
+        {
+            Quantity--;
+        }
     }
 
     private static void CloseWindow(object _)

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Strunchik.Model.CartItem;
-using System.Collections.ObjectModel;
 
 namespace Strunchik.ViewModel.Services.BasketService;
 
