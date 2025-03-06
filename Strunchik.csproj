@@ -14,6 +14,8 @@
     <None Remove="Resources\Images\edit.png" />
     <None Remove="Resources\Images\eye1.png" />
     <None Remove="Resources\Images\eye2.png" />
+    <None Remove="Resources\Images\minus.png" />
+    <None Remove="Resources\Images\plus.png" />
     <None Remove="Resources\Images\restore - Copy.png" />
     <None Remove="Resources\Images\restore.png" />
     <None Remove="Resources\Images\roll.png" />
@@ -47,6 +49,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\logo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\minus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\plus.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\restore.png">

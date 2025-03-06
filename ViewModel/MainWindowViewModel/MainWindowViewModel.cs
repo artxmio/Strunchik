@@ -22,11 +22,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly ApplicationContext.ApplicationContext _context;
     private ItemModel _selectedItem = null!;
     private GridLength _selectedWidth = new(0);
+    private int _quantity = 1;
 
     private readonly SearchService _searchService;
     private readonly ProfileTextBoxsService _profileTextBoxsService;
     private readonly UserSaveService _userSaveService;
     private readonly BasketService _basketService;
+    private BasketModel _basket;
 
     private bool _isUserNotAuthorizate = true;
     private UserModel _currentUser = new();
@@ -53,7 +55,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
-    private BasketModel _basket;
     public BasketModel Basket
     {
         get => _basket;
@@ -113,7 +114,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand IncreaseQuantityCommand { get; }
     #endregion
 
-    public int TotalPrice { get => 100; }
+    public decimal TotalPrice 
+    {
+        get
+        {
+            return Basket.CartItems?.Sum(ci => ci.Item.Price * ci.Quantity) ?? 0;
+        }
+    }
 
     public GridLength SelectedWidth
     {
@@ -150,7 +157,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
     }
     public bool IsUserAuthorizate => !_isUserNotAuthorizate;
 
-    private int _quantity;
     public int Quantity
     {
         get => _quantity;
@@ -266,6 +272,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private void CloseItemDescription()
     {
         _selectedItem = null!;
+        OnPropertyChanged(nameof(SelectedItem));
         OnItemSelected(new GridLength(0));
     }
 
@@ -288,19 +295,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         SelectedWidth = width;
         ItemSelected?.Invoke(this, SelectedItem);
-    }
-
-    private void IncreaseQuantity()
-    {
-        Quantity++;
-    }
-
-    private void DecreaseQuantity()
-    {
-        if (Quantity > 1)
-        {
-            Quantity--;
-        }
     }
 
     private static void CloseWindow(object _)

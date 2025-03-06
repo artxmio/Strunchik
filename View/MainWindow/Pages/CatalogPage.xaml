@@ -136,24 +136,40 @@
                         <ColumnDefinition Width="50"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    
-                            <Button 
-                                Grid.Column="0"
-                                Content="-" 
-                                Width="30" 
-                                Command="{Binding DecreaseQuantityCommand}"/>
-                    
-                            <TextBlock Text="{Binding Quantity}" 
+
+                    <Button 
+                                Background="Transparent"
+                                Foreground="White"
+                                BorderBrush="Red"
+                                Grid.Column="0" 
+                                Width="20" 
+                                Height="20" 
+                                Padding="0"
+                                Command="{Binding DecreaseQuantityCommand}">
+                        <Button.Content>
+                            <Image Source="/Resources/Images/minus.png" Width="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button.Content>
+                    </Button>
+                    <TextBlock Text="{Binding Quantity}" 
                                        d:Text="100"
                                        FontSize="17" 
                                        VerticalAlignment="Center" 
+                                       HorizontalAlignment="Center"
                                        Margin="10,0"
                                        Grid.Column="1"/>
-                            <Button 
-                                Content="+" 
-                                Width="30" 
+                    <Button 
+                                Background="Transparent"
+                                Foreground="White"
+                                BorderBrush="Red"
+                                Width="20" 
+                                Height="20"
+                                Padding="0"
                                 Command="{Binding IncreaseQuantityCommand}"
-                                Grid.Column="2"/>
+                                Grid.Column="2">
+                        <Button.Content>
+                            <Image Source="/Resources/Images/plus.png" Width="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Button.Content>
+                    </Button>
                 </Grid>
                 
                 <Button Content="Добавить в корзину"
