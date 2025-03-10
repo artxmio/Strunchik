@@ -1,0 +1,55 @@
+﻿<Page x:Class="Strunchik.View.MainWindow.Pages.AboutPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Strunchik.View.MainWindow.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AboutPage">
+
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <ScrollViewer>
+            <StackPanel Margin="20">
+                <TextBlock Text="О нас" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                <TextBlock Text="Добро пожаловать в наш магазин музыкальных инструментов! Мы - команда преданных своему делу музыкантов и энтузиастов, которые стремятся сделать мир музыки доступным для всех." 
+                   Margin="0,0,0,20" TextWrapping="Wrap" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+
+                <TextBlock Text="Наша миссия" FontSize="20" FontWeight="Bold" Margin="0,20,0,10" Foreground="White" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                <TextBlock Text="Мы верим, что музыка способна объединить людей и вдохновить на творчество. Наша миссия - предоставить каждому возможность выразить себя через музыку, предлагая широкий ассортимент инструментов, аксессуаров и оборудования высочайшего качества."
+                   Margin="0,0,0,20" TextWrapping="Wrap" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+
+                <TextBlock Text="Наши товары" FontSize="20" FontWeight="Bold" Margin="0,20,0,10" Foreground="White" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                <TextBlock Text="В нашем магазине вы найдете всё, что нужно для создания музыки:" 
+                   Margin="0,0,0,10" TextWrapping="Wrap" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                <TextBlock Text="• Гитары и бас-гитары - от классических моделей до современных инноваций." Margin="0,0,0,5" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                <TextBlock Text="• Клавишные инструменты - пианино, синтезаторы и миди-клавиатуры." Margin="0,0,0,5" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                <TextBlock Text="• Ударные установки и перкуссия - для рокеров и джазменов." Margin="0,0,0,5" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                <TextBlock Text="• Духовые и струнные инструменты - для оркестров и солистов." Margin="0,0,0,5" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                <TextBlock Text="• Аксессуары и оборудование - струны, чехлы, усилители и многое другое." Margin="0,0,0,20" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+
+                <TextBlock Text="Наша команда" FontSize="20" FontWeight="Bold" Margin="0,20,0,10" Foreground="White" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                <TextBlock Text="Наша команда состоит из профессиональных музыкантов и специалистов, готовых помочь вам с выбором инструмента и ответить на все ваши вопросы. Мы стремимся создать дружелюбную атмосферу, где каждый посетитель чувствует себя как дома."
+                   Margin="0,0,0,20" TextWrapping="Wrap" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+
+                <TextBlock Text="Наши услуги" FontSize="20" FontWeight="Bold" Margin="0,20,0,10" Foreground="White" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                <TextBlock Text="Мы не просто продаем инструменты - мы предлагаем полный спектр услуг:" 
+                   Margin="0,0,0,10" TextWrapping="Wrap" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                <TextBlock Text="• Консультации и поддержка - помощь в выборе и настройке инструментов." Margin="0,0,0,5" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                <TextBlock Text="• Сервисное обслуживание и ремонт - гарантийное и послегарантийное обслуживание." Margin="0,0,0,5" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                <TextBlock Text="• Мастер-классы и уроки музыки - обучение для музыкантов любого уровня." Margin="0,0,0,20" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+
+                <TextBlock Text="Контакты" FontSize="20" FontWeight="Bold" Margin="0,20,0,10" Foreground="White" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                <TextBlock Text="Заходите в наш магазин или свяжитесь с нами, чтобы узнать больше о наших товарах и услугах. Мы всегда рады видеть вас!"
+                   Margin="0,0,0,20" TextWrapping="Wrap" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

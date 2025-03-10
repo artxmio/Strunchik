@@ -40,4 +40,10 @@ public partial class MainWindow : Window
         var page = new BasketPage(_viewModel);
         MainFrame.Navigate(page);
     }
+
+    private void OpenAboutPage(object sender, RoutedEventArgs e)
+    {
+        var page = new AboutPage();
+        MainFrame.Navigate(page);
+    }
 }
