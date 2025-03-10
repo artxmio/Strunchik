@@ -23,14 +23,25 @@ public class BasketService
 
             if (item != null)
             {
-                var cartItem = new CartItemModel
+                var existingCartItem = basket.CartItems
+                    .FirstOrDefault(ci => ci.ItemId == itemId);
+
+                if (existingCartItem != null)
                 {
-                    BasketId = basket.BasketId,
-                    ItemId = item.ItemId,
-                    Item = item,
-                    Quantity = quantity
-                };
-                basket.CartItems.Add(cartItem);
+                    existingCartItem.Quantity += quantity;
+                }
+                else
+                {
+                    var cartItem = new CartItemModel
+                    {
+                        BasketId = basket.BasketId,
+                        ItemId = item.ItemId,
+                        Item = item,
+                        Quantity = quantity
+                    };
+                    basket.CartItems.Add(cartItem);
+                }
+
                 _context.SaveChanges();
             }
         }

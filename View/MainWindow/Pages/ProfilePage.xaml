@@ -22,6 +22,11 @@
             <Setter Property="BorderBrush" Value="Transparent"/>
         </Style>
 
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+            
         <Style x:Key="TextBoxAsTextBlockStyle" TargetType="TextBox">
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -32,6 +37,7 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Margin" Value="0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
                     <Setter Property="ToolTip" 
@@ -74,7 +80,7 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Имя: " FontSize="16"/>
+                        <TextBlock Text="Имя: " Style="{StaticResource TextBlockStyle}"/>
                         <TextBox x:Name="UserNameTextBox"
                                  MaxLength="50"
                                  Cursor="Arrow"
@@ -120,7 +126,7 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Почта: " FontSize="16"/>
+                        <TextBlock Text="Почта: " Style="{StaticResource TextBlockStyle}"/>
                         <TextBox x:Name="EmailTextBox"
                                  MaxLength="50"
                                  Cursor="Arrow"
@@ -164,7 +170,7 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Пароль: " FontSize="16"/>
+                        <TextBlock Text="Пароль: " Style="{StaticResource TextBlockStyle}"/>
                         <TextBox x:Name="PasswordTextBox"
                                  MaxLength="25"
                                  Cursor="Arrow"
