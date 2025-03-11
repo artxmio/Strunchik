@@ -20,7 +20,6 @@
         d:Height="1080">
 
     <Window.Resources>
-        <converters:ItemsTypeToStringConverter x:Key="ItemsTypeToStringConverter"/>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
         </Style>
@@ -65,6 +64,7 @@
             <StackPanel 
                 Grid.Column="1" 
                 Orientation="Horizontal"
+                Margin="0 0 10 0"
                 HorizontalAlignment="Right">
 
                 <Button 
@@ -112,7 +112,7 @@
                 </Button>
             </StackPanel>
 
-            <Menu Grid.Column="0" VerticalAlignment="Top" Margin="0 0 0 0" Foreground="White" Background="#2e2e2e" MouseDown="TitleBar_MouseDown">
+            <Menu Grid.Column="0" VerticalAlignment="Center" Margin="0 0 0 0" Foreground="White" Background="#2e2e2e" MouseDown="TitleBar_MouseDown">
                 <MenuItem Header="Каталог">
                     <MenuItem 
                         Foreground="Black" 
@@ -147,7 +147,7 @@
                               Click="OpenCatalogPage"/>
                 </MenuItem>
                 <MenuItem Header="Справка">
-                    <MenuItem Foreground="Black" Header="О программе" Click="OpenAboutPage"/>
+                    <MenuItem Foreground="Black" Header="О нас" Click="OpenAboutPage"/>
                     <MenuItem Foreground="Black" Header="Связаться с нами"/>
                 </MenuItem>
             </Menu>

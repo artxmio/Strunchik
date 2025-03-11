@@ -1,9 +1,16 @@
-﻿namespace Strunchik.Model.Item;
+﻿using System.ComponentModel.DataAnnotations;
 
-public enum ItemsType
+namespace Strunchik.Model.Item;
+
+public class ItemsType
 {
-    StringInstrument = 1,
-    KeyboardInstruments,
-    WindInsrtuments,
-    PercussionInstruments
+    [Key]
+    public int Id { get; set; }
+
+    public string Title { get; set; }
+
+    //StringInstrument = 1,
+    //KeyboardInstruments,
+    //WindInsrtuments,
+    //PercussionInstruments
 }

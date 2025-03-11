@@ -12,6 +12,8 @@ public class ApplicationContext : DbContext
     public DbSet<ItemModel> Items { get; set; } = null!;
     public DbSet<BasketModel> Baskets { get; set; } = null!;
     public DbSet<CartItemModel> CartItems { get; set; } = null!;
+    public DbSet<ItemsType> InstrumentTypes { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -21,10 +23,6 @@ public class ApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ItemModel>()
-            .Property(i => i.Type)
-            .HasConversion<int>();
-
         modelBuilder.Entity<UserModel>()
             .HasOne(u => u.Basket)
             .WithOne(b => b.User)
@@ -39,5 +37,10 @@ public class ApplicationContext : DbContext
             .HasOne(ci => ci.Item)
             .WithMany(i => i.CartItems)
             .HasForeignKey(ci => ci.ItemId);
+
+        modelBuilder.Entity<ItemModel>()
+            .HasOne(mi => mi.ItemType)
+            .WithMany()
+            .HasForeignKey(mi => mi.TypeId);
     }
 }

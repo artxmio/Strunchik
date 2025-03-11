@@ -20,7 +20,8 @@ public partial class MainWindow : Window
     private void TitleBar_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         var viewModel = (MainWindowViewModel)DataContext;
-        viewModel.DragWindowCommand.Execute(this);
+        if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            viewModel.DragWindowCommand.Execute(this);
     }
 
     private void OpenProfilePage(object sender, RoutedEventArgs e)

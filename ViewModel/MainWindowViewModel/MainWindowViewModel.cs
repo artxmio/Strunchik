@@ -180,6 +180,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _context.Users.Load();
         _context.Baskets.Load();
         _context.CartItems.Load();
+        _context.InstrumentTypes.Load();
         Items = _context.Items.Local.ToObservableCollection();
 
         if (_userSaveService.User is not null)
