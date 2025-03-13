@@ -8,6 +8,7 @@ using Strunchik.ViewModel.Commands;
 using Strunchik.ViewModel.Services.BasketService;
 using Strunchik.ViewModel.Services.ProfileTextBoxsService;
 using Strunchik.ViewModel.Services.SearchService;
+using Strunchik.ViewModel.Services.SortService;
 using Strunchik.ViewModel.Services.UserSaveService;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -209,8 +210,16 @@ public class MainWindowViewModel : INotifyPropertyChanged
         IncreaseQuantityCommand = new RelayCommand(_ => Quantity++);
         DecreaseQuantityCommand = new RelayCommand(_ => { if (Quantity > 1) Quantity--; });
 
-        SortByDescendingCommand = new RelayCommand(_ => SortByDescending());
-        SortByAscendingCommand = new RelayCommand(_ => SortByAscending());
+        SortByDescendingCommand = new RelayCommand(_ => 
+        { 
+            Items = SortService.SortByDescending(Items); 
+            OnPropertyChanged(nameof(Items)); 
+        });
+        SortByAscendingCommand = new RelayCommand(_ => 
+        {
+            Items = SortService.SortByAscending(Items);
+            OnPropertyChanged(nameof(Items)); 
+        });
 
         SaveCommand = new RelayCommand(_ => Save());
     }
@@ -302,16 +311,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             return;
         }
         Items = [.. _context.Items.Local.Where(i => i.ItemType.Id == type.Id)];
-    }
-    public void SortByDescending()
-    {
-        Items = [.. _context.Items.Local.OrderBy(i => i.Price)];
-        OnPropertyChanged(nameof(Items));
-    }
-    public void SortByAscending()
-    {
-        Items = [.. _context.Items.Local.OrderByDescending(i => i.Price)];
-        OnPropertyChanged(nameof(Items));
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
