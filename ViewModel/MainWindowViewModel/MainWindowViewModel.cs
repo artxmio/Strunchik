@@ -288,6 +288,16 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<ItemModel>? ItemSelected;
 
+    public void SetFilterOption(ItemsType type = null)
+    {
+        if (type == null)
+        {
+            Items = _context.Items.Local.ToObservableCollection();
+            return;
+        }
+        Items = [.. _context.Items.Local.Where(i => i.ItemType.Id == type.Id)];
+    }
+
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

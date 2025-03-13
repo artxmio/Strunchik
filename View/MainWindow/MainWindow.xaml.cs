@@ -1,4 +1,5 @@
-﻿using Strunchik.View.MainWindow.Pages;
+﻿using Strunchik.Model.Item;
+using Strunchik.View.MainWindow.Pages;
 using Strunchik.ViewModel.MainWindowViewModel;
 using System.Windows;
 
@@ -32,6 +33,12 @@ public partial class MainWindow : Window
 
     private void OpenCatalogPage(object sender, RoutedEventArgs e)
     {
+        _viewModel.SetFilterOption();
+        NavigateToCatalogPage();
+    }
+
+    private void NavigateToCatalogPage()
+    {
         var page = new CatalogPage(_viewModel);
         MainFrame.Navigate(page);
     }
@@ -46,5 +53,34 @@ public partial class MainWindow : Window
     {
         var page = new AboutPage();
         MainFrame.Navigate(page);
+    }
+
+    private void WindInstrClick(object sender, RoutedEventArgs e)
+    {
+        var type = new ItemsType()
+        { Id = 1 };
+        _viewModel.SetFilterOption(type);
+        NavigateToCatalogPage();
+    }
+    private void KeyInstrClick(object sender, RoutedEventArgs e)
+    {
+        var type = new ItemsType()
+        { Id = 2 };
+        _viewModel.SetFilterOption(type);
+        NavigateToCatalogPage();
+    }
+    private void DrumInstrClick(object sender, RoutedEventArgs e)
+    {
+        var type = new ItemsType()
+        { Id = 3 };
+        _viewModel.SetFilterOption(type);
+        NavigateToCatalogPage();
+    }
+    private void StringInstrClick(object sender, RoutedEventArgs e)
+    {
+        var type = new ItemsType()
+        { Id = 4 };
+        _viewModel.SetFilterOption(type);
+        NavigateToCatalogPage();
     }
 }

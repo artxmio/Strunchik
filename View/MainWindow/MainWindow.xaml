@@ -119,10 +119,18 @@
                         Header="Все инструменты"
                         Click="OpenCatalogPage"/>
                     <Separator/>
-                    <MenuItem Foreground="Black" Header="Струнные инструменты"/>
-                    <MenuItem Foreground="Black" Header="Клавишные инструменты"/>
-                    <MenuItem Foreground="Black" Header="Ударные инструменты"/>
-                    <MenuItem Foreground="Black" Header="Духовые инструменты"/>
+                    <MenuItem Foreground="Black" 
+                              Header="Струнные инструменты"
+                              Click="StringInstrClick"/>
+                    <MenuItem Foreground="Black" 
+                              Header="Клавишные инструменты"
+                              Click="KeyInstrClick"/>
+                    <MenuItem Foreground="Black" 
+                              Header="Ударные инструменты"
+                              Click="DrumInstrClick"/>
+                    <MenuItem Foreground="Black"
+                              Header="Духовые инструменты"
+                              Click="WindInstrClick"/>
                 </MenuItem>
                 <MenuItem Header="Профиль">
                     <MenuItem Foreground="Black"
