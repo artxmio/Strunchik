@@ -41,4 +41,12 @@ public partial class CatalogPage : Page
     {
         _viewModel.SortByAscendingCommand.Execute(null);
     }
+    private void SortByTitleClick(object sender, System.Windows.RoutedEventArgs e)
+    {
+        _viewModel.SortByTitleCommand.Execute(null);
+    }
+    private void SortByTitleRevertClick(object sender, System.Windows.RoutedEventArgs e)
+    {
+        _viewModel.SortByTitleRevertCommand.Execute(null);
+    }
 }

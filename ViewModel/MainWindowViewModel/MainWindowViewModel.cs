@@ -116,6 +116,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public ICommand SortByDescendingCommand { get; }
     public ICommand SortByAscendingCommand { get; }
+
+    public ICommand SortByTitleCommand { get; }
+    public ICommand SortByTitleRevertCommand { get; }
     #endregion
 
     public decimal TotalPrice
@@ -212,13 +215,24 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         SortByDescendingCommand = new RelayCommand(_ => 
         { 
-            Items = SortService.SortByDescending(Items); 
+            Items = SortService.SortByPrice(Items, false); 
             OnPropertyChanged(nameof(Items)); 
         });
         SortByAscendingCommand = new RelayCommand(_ => 
         {
-            Items = SortService.SortByAscending(Items);
+            Items = SortService.SortByPrice(Items, true);
             OnPropertyChanged(nameof(Items)); 
+        });
+
+        SortByTitleCommand = new RelayCommand(_ => 
+        { 
+            Items = SortService.SortByTitle(Items, true); 
+            OnPropertyChanged(nameof(Items));
+        });
+        SortByTitleRevertCommand = new RelayCommand(_ =>
+        {
+            Items = SortService.SortByTitle(Items, false);
+            OnPropertyChanged(nameof(Items));
         });
 
         SaveCommand = new RelayCommand(_ => Save());
