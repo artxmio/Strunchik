@@ -112,9 +112,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public ICommand DecreaseQuantityCommand { get; }
     public ICommand IncreaseQuantityCommand { get; }
+
+    public ICommand SortByDescendingCommand { get; }
+    public ICommand SortByAscendingCommand { get; }
     #endregion
 
-    public decimal TotalPrice 
+    public decimal TotalPrice
     {
         get
         {
@@ -206,6 +209,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         IncreaseQuantityCommand = new RelayCommand(_ => Quantity++);
         DecreaseQuantityCommand = new RelayCommand(_ => { if (Quantity > 1) Quantity--; });
 
+        SortByDescendingCommand = new RelayCommand(_ => SortByDescending());
+        SortByAscendingCommand = new RelayCommand(_ => SortByAscending());
+
         SaveCommand = new RelayCommand(_ => Save());
     }
 
@@ -296,6 +302,16 @@ public class MainWindowViewModel : INotifyPropertyChanged
             return;
         }
         Items = [.. _context.Items.Local.Where(i => i.ItemType.Id == type.Id)];
+    }
+    public void SortByDescending()
+    {
+        Items = [.. _context.Items.Local.OrderBy(i => i.Price)];
+        OnPropertyChanged(nameof(Items));
+    }
+    public void SortByAscending()
+    {
+        Items = [.. _context.Items.Local.OrderByDescending(i => i.Price)];
+        OnPropertyChanged(nameof(Items));
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null!)

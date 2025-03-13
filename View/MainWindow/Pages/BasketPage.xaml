@@ -23,8 +23,7 @@
         </Style>
 
         <ContextMenu x:Key="ItemContextMenu">
-            <MenuItem Header="Удалить"
-                      />
+            <MenuItem Header="Удалить"/>
         </ContextMenu>
     </Page.Resources>
     <Grid>

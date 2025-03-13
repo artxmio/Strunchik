@@ -13,7 +13,7 @@ public partial class CatalogPage : Page
         
         _viewModel = viewModel;
 
-        this.DataContext = _viewModel;
+        this.DataContext = _viewModel;  
     }
 
     private void SearchBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -23,5 +23,22 @@ public partial class CatalogPage : Page
             _viewModel.SearchString = searchBox.Text;
             _viewModel.SearchItems();
         }
+    }
+
+    private void ContextButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (sender is Button button && button.ContextMenu != null)
+        {
+            button.ContextMenu.IsOpen = true;
+        }
+    }
+
+    private void SortByDescendingClick(object sender, System.Windows.RoutedEventArgs e)
+    {
+        _viewModel.SortByDescendingCommand.Execute(null);
+    } 
+    private void SortByAscendingClick(object sender, System.Windows.RoutedEventArgs e)
+    {
+        _viewModel.SortByAscendingCommand.Execute(null);
     }
 }
