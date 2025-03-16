@@ -19,7 +19,7 @@
         <ScrollViewer>
             <StackPanel Margin="20">
                 <TextBlock Text="О нас" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-                <TextBlock Text="Добро пожаловать в наш магазин музыкальных инструментов! Мы - команда преданных своему делу музыкантов и энтузиастов, которые стремятся сделать мир музыки доступным для всех." 
+                <TextBlock Text="Добро пожаловать в наш магазин музыкальных инструментов Strunchic! Мы - команда преданных своему делу музыкантов и энтузиастов, которые стремятся сделать мир музыки доступным для всех." 
                    Margin="0,0,0,20" TextWrapping="Wrap" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
 
                 <TextBlock Text="Наша миссия" FontSize="20" FontWeight="Bold" Margin="0,20,0,10" Foreground="White" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
@@ -47,9 +47,7 @@
                 <TextBlock Text="• Мастер-классы и уроки музыки - обучение для музыкантов любого уровня." Margin="0,0,0,20" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
 
                 <TextBlock Text="Контакты" FontSize="20" FontWeight="Bold" Margin="0,20,0,10" Foreground="White" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
-                <TextBlock Text="Заходите в наш магазин или свяжитесь с нами, чтобы узнать больше о наших товарах и услугах. Мы всегда рады видеть вас!"
-                   Margin="0,0,0,20" TextWrapping="Wrap" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-            </StackPanel>
+                </StackPanel>
         </ScrollViewer>
     </Grid>
 </Page>

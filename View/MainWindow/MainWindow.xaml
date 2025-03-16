@@ -78,7 +78,7 @@
                     Padding="0"                
                     Command="{Binding RollWindowCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
                     <Button.Content>
-                        <Image Source="..\..\Resources\Images\roll.png" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image Source="/Resources/Images/roll.png" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button.Content>
                 </Button>
                 <Button 
@@ -92,7 +92,7 @@
                     Padding="0"                
                     Command="{Binding RestoreWindowCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
                     <Button.Content>
-                        <Image Source="..\..\Resources\Images\restore.png" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image Source="/Resources/Images/restore.png" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button.Content>
                 </Button>
                 <Button 
@@ -107,7 +107,7 @@
                     Command="{Binding CloseWindowCommand}" 
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
                     <Button.Content>
-                        <Image Source="..\..\Resources\Images\cross.png" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image Source="/Resources/Images/cross.png" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button.Content>
                 </Button>
             </StackPanel>
@@ -155,8 +155,12 @@
                               Click="OpenCatalogPage"/>
                 </MenuItem>
                 <MenuItem Header="Справка">
-                    <MenuItem Foreground="Black" Header="О нас" Click="OpenAboutPage"/>
-                    <MenuItem Foreground="Black" Header="Связаться с нами"/>
+                    <MenuItem Foreground="Black" 
+                              Header="О нас" 
+                              Click="OpenAboutPage"/>
+                    <MenuItem Foreground="Black"
+                              Header="Связаться с нами"
+                              Click="OpenContactPage"/>
                 </MenuItem>
             </Menu>
 

@@ -54,7 +54,11 @@ public partial class MainWindow : Window
         var page = new AboutPage();
         MainFrame.Navigate(page);
     }
-
+    private void OpenContactPage(object sender, RoutedEventArgs e)
+    {
+        var page = new ContactPage();
+        MainFrame.Navigate(page);
+    }
     private void WindInstrClick(object sender, RoutedEventArgs e)
     {
         var type = new ItemsType()
