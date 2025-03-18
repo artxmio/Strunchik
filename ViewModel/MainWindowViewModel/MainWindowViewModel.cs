@@ -2,6 +2,8 @@
 using Strunchik.Model.Basket;
 using Strunchik.Model.CartItem;
 using Strunchik.Model.Item;
+using Strunchik.Model.Order;
+using Strunchik.Model.OrderItem;
 using Strunchik.Model.User;
 using Strunchik.View.StartWindow;
 using Strunchik.ViewModel.Commands;
@@ -119,6 +121,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public ICommand SortByTitleCommand { get; }
     public ICommand SortByTitleRevertCommand { get; }
+    public ICommand MakeOrderCommand { get; }
     #endregion
 
     public decimal TotalPrice
@@ -213,20 +216,20 @@ public class MainWindowViewModel : INotifyPropertyChanged
         IncreaseQuantityCommand = new RelayCommand(_ => Quantity++);
         DecreaseQuantityCommand = new RelayCommand(_ => { if (Quantity > 1) Quantity--; });
 
-        SortByDescendingCommand = new RelayCommand(_ => 
-        { 
-            Items = SortService.SortByPrice(Items, false); 
-            OnPropertyChanged(nameof(Items)); 
+        SortByDescendingCommand = new RelayCommand(_ =>
+        {
+            Items = SortService.SortByPrice(Items, false);
+            OnPropertyChanged(nameof(Items));
         });
-        SortByAscendingCommand = new RelayCommand(_ => 
+        SortByAscendingCommand = new RelayCommand(_ =>
         {
             Items = SortService.SortByPrice(Items, true);
-            OnPropertyChanged(nameof(Items)); 
+            OnPropertyChanged(nameof(Items));
         });
 
-        SortByTitleCommand = new RelayCommand(_ => 
-        { 
-            Items = SortService.SortByTitle(Items, true); 
+        SortByTitleCommand = new RelayCommand(_ =>
+        {
+            Items = SortService.SortByTitle(Items, true);
             OnPropertyChanged(nameof(Items));
         });
         SortByTitleRevertCommand = new RelayCommand(_ =>
@@ -235,7 +238,40 @@ public class MainWindowViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(Items));
         });
 
+        MakeOrderCommand = new RelayCommand(_ => MakeOrder());
+
         SaveCommand = new RelayCommand(_ => Save());
+    }
+
+    public void MakeOrder()
+    {
+        if (this.Basket is null || Basket.CartItems is null || !Basket.CartItems.Any())
+        {
+            MessageBox.Show("Корзина пуста!", "Внимание");
+            return;
+        }
+
+        var order = new OrderModel
+        {
+            UserId = Basket.UserId,
+            TotalAmount = Basket.CartItems.Sum(ci => ci.Item.Price * ci.Quantity),
+            OrderItems = [.. Basket.CartItems.Select(ci => new OrderItemModel
+            {
+                ItemId = ci.ItemId,
+                Quantity = ci.Quantity,
+                Price = ci.Item.Price
+            })]
+        };
+
+        _context.Orders.Add(order);
+
+        _context.CartItems.RemoveRange(Basket.CartItems);
+        Basket = new BasketModel();
+        OnPropertyChanged(nameof(TotalPrice));
+
+        _context.SaveChanges();
+
+        MessageBox.Show("Заказ оформлен!", "Внимание");
     }
 
     private void DeleteAccount()

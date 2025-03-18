@@ -2,6 +2,8 @@
 using Strunchik.Model.Basket;
 using Strunchik.Model.CartItem;
 using Strunchik.Model.Item;
+using Strunchik.Model.Order;
+using Strunchik.Model.OrderItem;
 using Strunchik.Model.User;
 
 namespace Strunchik.ViewModel.ApplicationContext;
@@ -12,7 +14,9 @@ public class ApplicationContext : DbContext
     public DbSet<ItemModel> Items { get; set; } = null!;
     public DbSet<BasketModel> Baskets { get; set; } = null!;
     public DbSet<CartItemModel> CartItems { get; set; } = null!;
-    public DbSet<ItemsType> InstrumentTypes { get; set; }
+    public DbSet<ItemsType> InstrumentTypes { get; set; } = null!;
+    public DbSet<OrderModel> Orders { get; set; } = null!;
+    public DbSet<OrderItemModel> OrderItems { get; set; } = null!;
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,5 +46,20 @@ public class ApplicationContext : DbContext
             .HasOne(mi => mi.ItemType)
             .WithMany()
             .HasForeignKey(mi => mi.TypeId);
+
+        modelBuilder.Entity<OrderModel>()
+            .HasOne(o => o.User)
+            .WithMany()
+            .HasForeignKey(o => o.UserId);
+
+        modelBuilder.Entity<OrderItemModel>()
+            .HasOne(oi => oi.Order)
+            .WithMany(o => o.OrderItems)
+            .HasForeignKey(oi => oi.OrderId);
+
+        modelBuilder.Entity<OrderItemModel>()
+            .HasOne(oi => oi.Item)
+            .WithMany()
+            .HasForeignKey(oi => oi.ItemId);
     }
 }

@@ -158,6 +158,7 @@
                 FontSize="17"
                 Margin="20" 
                 Background="Red"
-                BorderBrush="Transparent"/>
+                BorderBrush="Transparent"
+                Command="{Binding MakeOrderCommand}"/>
     </Grid>
 </Page>
