@@ -1,0 +1,8 @@
+{
+    "SmtpSettings": {
+        "Server": "smtp.yandex.com",
+        "Port": 587,
+        "Email": "nonameaccount@yandex.by",
+        "Password": "qtwwbvphybdiesqe"
+    }
+}

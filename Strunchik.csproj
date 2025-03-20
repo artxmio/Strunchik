@@ -10,6 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Fonts\Arial.ttf" />
+    <None Remove="Resources\Fonts\Verdana.ttf" />
+    <None Remove="Resources\Html\index.html" />
     <None Remove="Resources\Images\cross.png" />
     <None Remove="Resources\Images\edit.png" />
     <None Remove="Resources\Images\eye1.png" />
@@ -17,15 +20,18 @@
     <None Remove="Resources\Images\instagram.png" />
     <None Remove="Resources\Images\minus.png" />
     <None Remove="Resources\Images\plus.png" />
+    <None Remove="Resources\Images\qr.png" />
     <None Remove="Resources\Images\restore - Copy.png" />
     <None Remove="Resources\Images\restore.png" />
     <None Remove="Resources\Images\roll.png" />
     <None Remove="Resources\Images\sort.png" />
     <None Remove="Resources\Images\telegram.png" />
     <None Remove="Resources\Images\website.png" />
+    <None Remove="Resources\Other\app.config.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.11.0" />
     <PackageReference Include="MaterialDesignColors" Version="5.2.2-ci907" />
     <PackageReference Include="MaterialDesignThemes" Version="5.2.2-ci907" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
@@ -35,11 +41,24 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0-preview.2.25163.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0-preview.2.25163.2" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3171-prerelease" />
+    <PackageReference Include="MimeKit" Version="4.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="PDFsharp" Version="6.2.0-preview-3" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\Fonts\Arial.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\Verdana.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Html\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\cross.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -64,6 +83,9 @@
     <Content Include="Resources\Images\plus.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\qr.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\restore.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -81,6 +103,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\website.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Other\app.config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

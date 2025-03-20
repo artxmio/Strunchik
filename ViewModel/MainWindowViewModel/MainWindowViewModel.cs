@@ -8,12 +8,15 @@ using Strunchik.Model.User;
 using Strunchik.View.StartWindow;
 using Strunchik.ViewModel.Commands;
 using Strunchik.ViewModel.Services.BasketService;
+using Strunchik.ViewModel.Services.MailService;
+using Strunchik.ViewModel.Services.PDFMakerService;
 using Strunchik.ViewModel.Services.ProfileTextBoxsService;
 using Strunchik.ViewModel.Services.SearchService;
 using Strunchik.ViewModel.Services.SortService;
 using Strunchik.ViewModel.Services.UserSaveService;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -238,12 +241,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(Items));
         });
 
-        MakeOrderCommand = new RelayCommand(_ => MakeOrder());
+        MakeOrderCommand = new RelayCommand(async _ => await MakeOrder());
 
         SaveCommand = new RelayCommand(_ => Save());
     }
 
-    public void MakeOrder()
+    public async Task MakeOrder()
     {
         if (this.Basket is null || Basket.CartItems is null || !Basket.CartItems.Any())
         {
@@ -271,7 +274,18 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         _context.SaveChanges();
 
-        MessageBox.Show("Заказ оформлен!", "Внимание");
+        var emailService = new MailService();
+        var bodyHMTL = File.ReadAllLines(@"Resources/Html/index.html") ?? throw new NullReferenceException();
+
+        var body = string.Join(" ", bodyHMTL);
+        body = body
+            .Replace("{OrderID}", order.OrderId.ToString())
+            .Replace("{Price}", order.TotalAmount.ToString());
+
+        PDFMakerService.CreatePDf(order, _context);
+        await emailService.SendEmailAsync(CurrentUser.Email, body);
+
+        MessageBox.Show("Заказ оформлен!\nЧек отправлен вам на почту!", "Внимание");
     }
 
     private void DeleteAccount()
