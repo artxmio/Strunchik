@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using Strunchik.Model.Basket;
 using Strunchik.Model.CartItem;
 using Strunchik.Model.Item;
 using Strunchik.Model.Order;
 using Strunchik.Model.OrderItem;
+using Strunchik.Model.PurchaseHistory;
 using Strunchik.Model.User;
 using Strunchik.View.StartWindow;
 using Strunchik.ViewModel.Commands;
@@ -11,6 +13,7 @@ using Strunchik.ViewModel.Services.BasketService;
 using Strunchik.ViewModel.Services.MailService;
 using Strunchik.ViewModel.Services.PDFMakerService;
 using Strunchik.ViewModel.Services.ProfileTextBoxsService;
+using Strunchik.ViewModel.Services.PurchaseHistoryService;
 using Strunchik.ViewModel.Services.SearchService;
 using Strunchik.ViewModel.Services.SortService;
 using Strunchik.ViewModel.Services.UserSaveService;
@@ -34,6 +37,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly ProfileTextBoxsService _profileTextBoxsService;
     private readonly UserSaveService _userSaveService;
     private readonly BasketService _basketService;
+    private readonly PurchaseHistoryService _purchaseHistoryService;
     private BasketModel _basket;
 
     private bool _isUserNotAuthorizate = true;
@@ -50,6 +54,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
     public ObservableCollection<ItemModel> Items { get; set; }
+    public ObservableCollection<PurchaseHistoryModel> HistoryItems { get; set; }
 
     public UserModel CurrentUser
     {
@@ -187,6 +192,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _searchService = new SearchService();
         _profileTextBoxsService = new ProfileTextBoxsService();
         _basketService = new BasketService(_context);
+        _purchaseHistoryService = new PurchaseHistoryService(_context);
 
         _context.Database.EnsureCreated();
         _context.Items.Load();
@@ -194,7 +200,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _context.Baskets.Load();
         _context.CartItems.Load();
         _context.InstrumentTypes.Load();
+        _context.PurchaseHistory.Load();
         Items = _context.Items.Local.ToObservableCollection();
+        HistoryItems = _context.PurchaseHistory.Local.ToObservableCollection();
 
         if (_userSaveService.User is not null)
         {
@@ -203,8 +211,18 @@ public class MainWindowViewModel : INotifyPropertyChanged
             CurrentUser = curr ?? new UserModel();
             _isUserNotAuthorizate = false;
         }
-        _basket = _context.Baskets.Local.FirstOrDefault(b => b.UserId == CurrentUser.UserId)
-                    ?? new BasketModel();
+
+        _basket = _context.Baskets.Local.FirstOrDefault(b => b.UserId == CurrentUser.UserId) ?? null!;
+
+        if (_basket is null)
+        {
+            _basket = new BasketModel
+            {
+                UserId = CurrentUser.UserId
+            };
+            _context.Baskets.Add(_basket);
+            _context.SaveChanges();
+        }
 
         DragWindowCommand = new RelayCommand(_ => DragWindow(_));
         RestoreWindowCommand = new RelayCommand(_ => RestoreWindow(_));
@@ -272,7 +290,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         Basket = new BasketModel();
         OnPropertyChanged(nameof(TotalPrice));
 
-        _context.SaveChanges();
+        _purchaseHistoryService.AddOrderToPurchaseHistory(CurrentUser.UserId, [..order.OrderItems]);
+        HistoryItems = _context.PurchaseHistory.Local.ToObservableCollection();
 
         var emailService = new MailService();
         var bodyHMTL = File.ReadAllLines(@"Resources/Html/index.html") ?? throw new NullReferenceException();
@@ -286,6 +305,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         await emailService.SendEmailAsync(CurrentUser.Email, body);
 
         MessageBox.Show("Заказ оформлен!\nЧек отправлен вам на почту!", "Внимание");
+        _context.SaveChanges();
     }
 
     private void DeleteAccount()
@@ -359,7 +379,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     // search items by _searchString
     public void SearchItems()
     {
-        Items = string.IsNullOrEmpty(SearchString) ? _context.Items.Local.ToObservableCollection() : _searchService.Find(Items);
+        Items = string.IsNullOrEmpty(SearchString) ? _context.Items.Local.ToObservableCollection() : _searchService.Find(_context.Items.Local.ToObservableCollection());
         OnPropertyChanged(nameof(Items));
     }
 

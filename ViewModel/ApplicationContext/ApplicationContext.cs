@@ -4,6 +4,7 @@ using Strunchik.Model.CartItem;
 using Strunchik.Model.Item;
 using Strunchik.Model.Order;
 using Strunchik.Model.OrderItem;
+using Strunchik.Model.PurchaseHistory;
 using Strunchik.Model.User;
 
 namespace Strunchik.ViewModel.ApplicationContext;
@@ -17,7 +18,7 @@ public class ApplicationContext : DbContext
     public DbSet<ItemsType> InstrumentTypes { get; set; } = null!;
     public DbSet<OrderModel> Orders { get; set; } = null!;
     public DbSet<OrderItemModel> OrderItems { get; set; } = null!;
-
+    public DbSet<PurchaseHistoryModel> PurchaseHistory { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -27,6 +28,11 @@ public class ApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<PurchaseHistoryModel>()
+             .HasOne(ph => ph.User)
+             .WithMany()
+             .HasForeignKey(ph => ph.UserId);
+
         modelBuilder.Entity<UserModel>()
             .HasOne(u => u.Basket)
             .WithOne(b => b.User)

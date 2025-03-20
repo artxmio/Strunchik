@@ -146,6 +146,10 @@
                               Header="Корзина"
                               IsEnabled="{Binding IsUserAuthorizate}"
                               Click="OpenBasketPage"/>
+                    <MenuItem Foreground="Black" 
+                              Header="История покупок"
+                              IsEnabled="{Binding IsUserAuthorizate}"
+                              Click="OpenPurchaseHistoryPage"/>
                     <Separator/>
                     <MenuItem Foreground="Black" 
                               Command="{Binding ExitCommand}"

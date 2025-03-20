@@ -58,6 +58,11 @@ public partial class MainWindow : Window
     {
         var page = new ContactPage();
         MainFrame.Navigate(page);
+    }   
+    private void OpenPurchaseHistoryPage(object sender, RoutedEventArgs e)
+    {
+        var page = new PurchaseHistoryPage(_viewModel);
+        MainFrame.Navigate(page);
     }
     private void WindInstrClick(object sender, RoutedEventArgs e)
     {
