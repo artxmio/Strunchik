@@ -209,8 +209,6 @@
                 <Button Content="Сохранить изменения"
                         Style="{StaticResource ButtonStyle}"
                         Command="{Binding SaveCommand}"/>
-                <Button Content="История покупок"
-                        Style="{StaticResource ButtonStyle}"/>
                 <Button Content="Удалить аккаунт"
                         Command="{Binding DeleteAccountCommand}"
                         Style="{StaticResource ButtonStyle}"/>

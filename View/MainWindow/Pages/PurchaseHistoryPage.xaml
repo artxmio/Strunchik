@@ -13,6 +13,13 @@
       d:DataContext="{d:DesignInstance vm:MainWindowViewModel}">
     <Page.Resources>
         <converters:PercentageConverter x:Key="PercentageConverter"/>
+        <Style x:Key="GridViewColumnHeaderStyle" TargetType="GridViewColumnHeader">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#2e2e2e"/>
+            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -27,41 +34,89 @@
                    Margin="10"
                    Foreground="White"/>
 
-        <DataGrid Grid.Row="1" Name="PurchaseHistoryGrid" 
-                  AutoGenerateColumns="False" 
-                  CanUserAddRows="False" 
-                  IsReadOnly="True" 
-                  ItemsSource="{Binding HistoryItems, Mode=TwoWay}"
-                  Margin="10"
-                  Foreground="White"
-                  Background="#202020"
-                  FontSize="20"
-                  BorderBrush="Black"
-                  BorderThickness="2">
-            <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="DataGridColumnHeader">
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
+        <ListView Grid.Row="1"
+          Name="CartItemsList" 
+          ItemsSource="{Binding HistoryItems}"
+          Foreground="White"
+          Margin="15"
+          HorizontalAlignment="Center"
+          Padding="0"
+          ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="Padding" Value="10"/>
-                    <Setter Property="BorderBrush" Value="#404040"/>
-                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Height" Value="50"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0"
+                                    BorderBrush="Black"
+                                CornerRadius="0">
+                                        <GridViewRowPresenter/>
+                                    </Border>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal"/>
+                                            <VisualState x:Name="MouseOver">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#666" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Selected">
+                                                <Storyboard>
+                                                    <ColorAnimation Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#3b3b3b" Duration="0:0:0.2"/>
+                                                    <ColorAnimation Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                            To="White" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
-            </DataGrid.ColumnHeaderStyle>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Название товара" 
-                                    Binding="{Binding ProductName}"
-                                    Width="1*"/>
-                <DataGridTextColumn Header="Количество" 
-                                    Binding="{Binding Quantity}" 
-                                    Width="150"/>
-                <DataGridTextColumn Header="Цена ($)"
-                                    Binding="{Binding Price}"
-                                    Width="150"/>
-                <DataGridTextColumn Header="Дата покупки"
-                                    Binding="{Binding PurchaseDate}"
-                                    Width="300" />
-            </DataGrid.Columns>
-        </DataGrid>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn 
+                        Header="Товар" 
+                        DisplayMemberBinding="{Binding ProductName}"
+                        HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"
+                        Width="{Binding ElementName=CartItemsList, Path=ActualWidth, Converter={StaticResource PercentageConverter}, ConverterParameter=0.50}"/>
+
+                    <GridViewColumn 
+                        Header="Цена"
+                        DisplayMemberBinding="{Binding Price}" 
+                        HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"
+                        Width="{Binding ElementName=CartItemsList, Path=ActualWidth, Converter={StaticResource PercentageConverter}, ConverterParameter=0.10}"/>
+
+                    <GridViewColumn 
+                        Header="Количество"
+                        DisplayMemberBinding="{Binding Quantity}" 
+                        HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"
+                        Width="{Binding ElementName=CartItemsList, Path=ActualWidth, Converter={StaticResource PercentageConverter}, ConverterParameter=0.10}"/>
+
+                    <GridViewColumn 
+                        Header="Дата"
+                        DisplayMemberBinding="{Binding PurchaseDate}" 
+                        HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}"
+                        Width="{Binding ElementName=CartItemsList, Path=ActualWidth, Converter={StaticResource PercentageConverter}, ConverterParameter=0.30}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Page>

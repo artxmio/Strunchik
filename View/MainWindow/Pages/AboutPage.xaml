@@ -45,8 +45,6 @@
                 <TextBlock Text="• Консультации и поддержка - помощь в выборе и настройке инструментов." Margin="0,0,0,5" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
                 <TextBlock Text="• Сервисное обслуживание и ремонт - гарантийное и послегарантийное обслуживание." Margin="0,0,0,5" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
                 <TextBlock Text="• Мастер-классы и уроки музыки - обучение для музыкантов любого уровня." Margin="0,0,0,20" Foreground="White" Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-
-                <TextBlock Text="Контакты" FontSize="20" FontWeight="Bold" Margin="0,20,0,10" Foreground="White" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
                 </StackPanel>
         </ScrollViewer>
     </Grid>
