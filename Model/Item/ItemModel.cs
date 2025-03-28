@@ -13,6 +13,7 @@ public class ItemModel
     public decimal Price { get; set; }
     public int TypeId { get; set; }
     public ItemsType ItemType { get; set; }
+    public string? ImagePath { get; set; }
 
     public ICollection<CartItemModel> CartItems { get; set; }
 }

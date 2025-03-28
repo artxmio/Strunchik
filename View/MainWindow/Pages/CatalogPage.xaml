@@ -143,6 +143,7 @@
                 </Button.Content>
             </Button>
             <StackPanel Grid.Row="1">
+                <Image Source="{Binding SelectedItemImage}" Width="300" Height="300"/>
                 <TextBlock Text="Информация о товаре" FontSize="23" FontWeight="Bold"/>
                 <TextBlock Text="Название:" FontWeight="Bold" FontSize="19"/>
                 <TextBlock Text="{Binding SelectedItem.Title}" FontSize="17"/>

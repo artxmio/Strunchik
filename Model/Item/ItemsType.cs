@@ -8,9 +8,4 @@ public class ItemsType
     public int Id { get; set; }
 
     public string Title { get; set; }
-
-    //StringInstrument = 1,
-    //KeyboardInstruments,
-    //WindInsrtuments,
-    //PercussionInstruments
 }

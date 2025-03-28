@@ -108,6 +108,7 @@ public class StartWindowViewModel : INotifyPropertyChanged
             else
             {
                 NewUser.Basket = new Model.Basket.BasketModel();
+                NewUser.RegistrationData = DateTime.Now;
                 var state = _context.Users.Add(NewUser);
                 _context.ChangeTracker.Clear();
                 _context.Entry(NewUser).State = EntityState.Added;

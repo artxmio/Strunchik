@@ -18,6 +18,7 @@
     <None Remove="Resources\Images\eye1.png" />
     <None Remove="Resources\Images\eye2.png" />
     <None Remove="Resources\Images\instagram.png" />
+    <None Remove="Resources\Images\ItemImages\default.jpg" />
     <None Remove="Resources\Images\minus.png" />
     <None Remove="Resources\Images\plus.png" />
     <None Remove="Resources\Images\qr.png" />
@@ -72,6 +73,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\instagram.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\ItemImages\default.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\logo.jpg">

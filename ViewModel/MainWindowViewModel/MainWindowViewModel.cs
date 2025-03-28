@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.Json;
 using Strunchik.Model.Basket;
 using Strunchik.Model.CartItem;
 using Strunchik.Model.Item;
@@ -23,13 +22,14 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Strunchik.ViewModel.MainWindowViewModel;
 
 public class MainWindowViewModel : INotifyPropertyChanged
 {
     private readonly ApplicationContext.ApplicationContext _context;
-    private ItemModel _selectedItem = null!;
+    private ItemModel? _selectedItem = null!;
     private GridLength _selectedWidth = new(0);
     private int _quantity = 1;
 
@@ -43,16 +43,38 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private bool _isUserNotAuthorizate = true;
     private UserModel _currentUser = new();
 
-    public ItemModel SelectedItem
+    public ItemModel? SelectedItem
     {
         get => _selectedItem;
         set
         {
             _selectedItem = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(SelectedItemImage));
             OnItemSelected(new GridLength(1, GridUnitType.Star));
         }
     }
+
+    public BitmapImage SelectedItemImage
+    {
+        get
+        {
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            string fileName = Path.GetFileName(SelectedItem?.ImagePath) ?? "default.jpg";
+
+            string imagePath = Path.Combine(baseDirectory, "Resources", "Images", "ItemImages", fileName);
+            bitmap.UriSource = new Uri(imagePath, UriKind.Absolute);
+
+            bitmap.EndInit();
+            return bitmap;
+        }
+    }
+
     public ObservableCollection<ItemModel> Items { get; set; }
     public ObservableCollection<PurchaseHistoryModel> HistoryItems { get; set; }
 
@@ -290,7 +312,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         Basket = new BasketModel();
         OnPropertyChanged(nameof(TotalPrice));
 
-        _purchaseHistoryService.AddOrderToPurchaseHistory(CurrentUser.UserId, [..order.OrderItems]);
+        _purchaseHistoryService.AddOrderToPurchaseHistory(CurrentUser.UserId, [.. order.OrderItems]);
         HistoryItems = _context.PurchaseHistory.Local.ToObservableCollection();
 
         var emailService = new MailService();

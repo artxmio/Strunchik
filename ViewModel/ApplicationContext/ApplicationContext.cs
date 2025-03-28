@@ -23,7 +23,7 @@ public class ApplicationContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         const string sourcePathDB = "database.db";
-        optionsBuilder.UseSqlite($"Data Source={sourcePathDB}");
+        optionsBuilder.UseSqlite($"Data Source={sourcePathDB}", b => b.MigrationsAssembly("Strunchik"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
