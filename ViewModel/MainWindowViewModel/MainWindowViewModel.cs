@@ -38,7 +38,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly UserSaveService _userSaveService;
     private readonly BasketService _basketService;
     private readonly PurchaseHistoryService _purchaseHistoryService;
-    private BasketModel _basket;
+    private BasketModel _basket = null!;
 
     private bool _isUserNotAuthorizate = true;
     private UserModel _currentUser = new();
@@ -230,13 +230,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             var curr = _context.Users.Local.FirstOrDefault(user => user.Email == _userSaveService.User.Email);
 
-            CurrentUser = curr ?? new UserModel();
+            CurrentUser = curr ?? null!;
             _isUserNotAuthorizate = false;
         }
 
         _basket = _context.Baskets.Local.FirstOrDefault(b => b.UserId == CurrentUser.UserId) ?? null!;
 
-        if (_basket is null)
+        if (_basket is null && CurrentUser.UserId != 0)
         {
             _basket = new BasketModel
             {
@@ -444,10 +444,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         if (_ is Window window)
         {
-            if (window.WindowState == WindowState.Maximized)
-            {
-                window.WindowState = WindowState.Normal;
-            }
             window.DragMove();
         }
         else

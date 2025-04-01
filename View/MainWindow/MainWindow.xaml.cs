@@ -19,10 +19,23 @@ public partial class MainWindow : Window
     }
 
     private void TitleBar_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    {
+    {        
+        
         var viewModel = (MainWindowViewModel)DataContext;
         if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
             viewModel.DragWindowCommand.Execute(this);
+
+        if (e.ClickCount == 2)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+        }
     }
 
     private void OpenProfilePage(object sender, RoutedEventArgs e)
