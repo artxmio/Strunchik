@@ -23,7 +23,10 @@
         </Style>
 
         <ContextMenu x:Key="ItemContextMenu">
-            <MenuItem Header="Удалить"/>
+            <MenuItem Header="Удалить" 
+                      Command="{Binding DataContext.DeleteItemFromBasketCommand, 
+                            RelativeSource={RelativeSource AncestorType=Page}}" 
+                      CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
         </ContextMenu>
     </Page.Resources>
     <Grid>

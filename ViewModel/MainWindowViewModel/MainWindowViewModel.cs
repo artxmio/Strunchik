@@ -138,7 +138,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand OpenAuthorizationRegistrationCommand { get; }
     public ICommand CloseItemDescriptionCommand { get; }
     public ICommand ExitCommand { get; }
+
     public ICommand AddItemToBasketCommand { get; }
+    public ICommand DeleteItemFromBasketCommand { get; }
 
     public ICommand SaveCommand { get; }
     public ICommand DeleteAccountCommand { get; }
@@ -254,7 +256,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         OpenAuthorizationRegistrationCommand = new RelayCommand(_ => OpenAuthWindow());
         ExitCommand = new RelayCommand(_ => Exit());
         DeleteAccountCommand = new RelayCommand(_ => DeleteAccount());
-        AddItemToBasketCommand = new RelayCommand(_ => _basketService.AddItemToBasket(CurrentUser.UserId, SelectedItem.ItemId, Quantity));
+        
+        AddItemToBasketCommand = new RelayCommand(async _ => await _basketService.AddItemToBasket(CurrentUser.UserId, SelectedItem.ItemId, Quantity));
+        DeleteItemFromBasketCommand = new RelayCommand(async _ => { await _basketService.DeleteItemFromBasket(_); OnPropertyChanged(nameof(CartItems)); });
 
         IncreaseQuantityCommand = new RelayCommand(_ => Quantity++);
         DecreaseQuantityCommand = new RelayCommand(_ => { if (Quantity > 1) Quantity--; });
